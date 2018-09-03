@@ -7,18 +7,28 @@ let j = [];
 class SPA extends React.Component {
   constructor(props) {
     super(props);
+
+    this.newMovie = {
+      _id: '',
+      Title: '',
+      Year: '',
+      Format: '',
+      Stars: []
+    };
+
     this.state = {
+      details: this.newMovie,
       movies: [],
       movieTitles: ["Titanic", "Angel A"],
       loading: false
     } 
   }
   
-   componentWillMount() {
-      window.onload = () => {
-       document.querySelector("#default").click();
-      };
-    }  
+  componentWillMount() {
+    window.onload = () => {
+      document.querySelector("#default").click();
+    };
+  }  
     /*
     componentDidMount() {
        fetch('some url')
@@ -33,12 +43,19 @@ class SPA extends React.Component {
         )
     } 
     */
+    movieDetails(_id) {  
+      this.setState({
+        details: this.state.movies.find(el => el._id == _id)
+      });
+    }
+
      render() {
       return (
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" render={(props) => <MovieList {...props} m={this.state.movieTitles}/>} />
+            <Route exact path="/" render={(props) => <MovieList {...props} m={this.state.movieTitles} showDetails={this.movieDetails}/>} />
+            <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" component={Add} />
             <Route exact path="/search" component={Search} />
           </div>
@@ -69,33 +86,61 @@ class SPA extends React.Component {
     }
   }
 
+  class Details extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = props.details
+    }
+    /*
+    componentWillReceiveProps(nextProps) {
+      this.setState(nextProps.details);
+    }
+    */
+    render() {
+      /*
+      <h2> {this.state.Title} </h2>
+      <p className=""> Release year: {this.state.Year} </p>
+      <p className=""> Format: {this.state.Format} </p>
+      <p className=""> Stars: {this.state.Stars} </p>
+      */
+      return (
+        <div className="box">
+          <p> details here soon</p>
+          <button type="button"><Link to="/"> Back to movies </Link></button>
+        </div>
+      );
+    }
+  }
+
   class MovieList extends React.Component {
     constructor(props) {
       super(props);
     }
-    
     render() {
       // назви фільмів в алфавітному порядку
        return ( /* (loading) 
         ? <div className="box">Loading movies...</div> 
         : 
       */
-          (!this.props.m.length) 
+          (!this.props.m.length) // перевірити щодо (movie._id) і додати в <li> key
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
-              <ul>
+              <ol>
                 {this.props.m.sort().map(el => 
                   <li> {el}             
-                    <button type="button" className="d"> Details </button>
+                    <button type="button" className="d" onClick={() => this.props.showDetails(movie._id)}><Link to="/details"> Details </Link></button>
                     <button type="button" className="d"> Delete </button>
                </li>)}
-              </ul>
+              </ol>
             </div>
        );
     }
   }
 
   class Add extends React.Component {
+    constructor(props) {
+      super(props);
+    }
     render() {
       return (
         <div className="box">
@@ -106,6 +151,9 @@ class SPA extends React.Component {
   }
   
   class Search extends React.Component {
+    constructor(props) {
+      super(props);
+    }
     render() {
       return (
         <div className="box">
