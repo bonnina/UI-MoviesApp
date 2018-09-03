@@ -3,14 +3,37 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
 
-let j = [];
+let j = []; 
 
 class SPA extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      movieTitles: ["Titanic", "Angel A"],
+      loading: false
+    } 
+  }
+  
    componentWillMount() {
       window.onload = () => {
        document.querySelector("#default").click();
       };
     }  
+    /*
+    componentDidMount() {
+       fetch('some url')
+        .then(response => response.json())
+        .then(json => { j = Object.assign([], json); return json.map(movie => movie.Title).sort(); })  
+        .then(movieTitles =>
+          this.setState({
+            movieTitles,
+            loading: false,
+            movies: j   // так можна?
+          })
+        )
+    } 
+    */
      render() {
       return (
         <BrowserRouter>
@@ -50,25 +73,8 @@ class SPA extends React.Component {
   class MovieList extends React.Component {
     constructor(props) {
       super(props);
-      // переписати з доп. рідаксу
-      this.state = {
-        movies: [],
-        movieTitles: [],
-        loading: false
-      } 
     }
-    componentDidMount() {
-       fetch('some url')
-        .then(response => response.json())
-        .then(json => { j = Object.assign([], json); return json.map(movie => movie.Title).sort(); })  
-        .then(movieTitles =>
-          this.setState({
-            movieTitles,
-            loading: false,
-            movies: j   // так можна?
-          })
-        )
-    } 
+    
     render() {
       // назви фільмів в алфавітному порядку
        return ( /* (loading) 
