@@ -9,7 +9,7 @@ class SPA extends React.Component {
     super(props);
 
     this.newMovie = {
-      _id: '',
+      _id: '', // звідки я його братиму у випадку вводу вручну?
       Title: '',
       Year: '',
       Format: '',
@@ -127,8 +127,8 @@ class SPA extends React.Component {
           : <div className="box">
               <ol>
                 {this.props.m.sort().map(el => 
-                  <li> {el}             
-                    <button type="button" className="d" onClick={() => this.props.showDetails(movie._id)}><Link to="/details"> Details </Link></button>
+                  <li key={el._id}> {el}             
+                    <button type="button" className="d" onClick={() => this.props.showDetails(el._id)}><Link to="/details"> Details </Link></button>
                     <button type="button" className="d"> Delete </button>
                </li>)}
               </ol>
