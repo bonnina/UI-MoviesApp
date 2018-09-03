@@ -13,7 +13,7 @@ class SPA extends React.Component {
       Title: '',
       Year: '',
       Format: '',
-      Stars: []
+      Stars: '' // поки буде строкою, але потім мабуть треба в масив
     };
 
     this.state = {
@@ -29,25 +29,37 @@ class SPA extends React.Component {
       document.querySelector("#default").click();
     };
   }  
+    
+  componentDidMount() {
+    this.getMovies()
+  } 
+  
+  getMovies() {
     /*
-    componentDidMount() {
-       fetch('some url')
-        .then(response => response.json())
-        .then(json => { j = Object.assign([], json); return json.map(movie => movie.Title).sort(); })  
-        .then(movieTitles =>
-          this.setState({
-            movieTitles,
-            loading: false,
-            movies: j   // так можна?
-          })
-        )
-    } 
+    fetch('some url', {
+        method: 'GET',
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: //
+      })
+      .then(response => response.json())
+      .then(json => { j = Object.assign([], json); return json.map(movie => movie.Title).sort(); })  
+      .then(movieTitles =>
+        this.setState({
+          movieTitles,
+          loading: false,
+          movies: j   // так можна?
+        })
+      )
     */
-    movieDetails(_id) {  
-      this.setState({
-        details: this.state.movies.find(el => el._id == _id)
-      });
-    }
+  }
+
+  movieDetails(_id) {  
+    this.setState({
+      details: this.state.movies.find(el => el._id == _id)
+    });
+  }
 
      render() {
       return (
@@ -56,7 +68,7 @@ class SPA extends React.Component {
             <Head />
             <Route exact path="/" render={(props) => <MovieList {...props} m={this.state.movieTitles} showDetails={this.movieDetails}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
-            <Route exact path="/add" component={Add} />
+            <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies}/>} />
             <Route exact path="/search" component={Search} />
           </div>
         </BrowserRouter>
@@ -140,16 +152,56 @@ class SPA extends React.Component {
   class Add extends React.Component {
     constructor(props) {
       super(props);
+      this.state = props.details // як краще?
     }
+    
+    handleInputChange(e) {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    }
+    
+    addMovie(e) {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const actors = data.get('Stars').split(',');
+      data.set('Stars', actors); // але ж на акторів окрема база даних.. чи цей масив допоможе?
+      /*
+      fetch('/api/form-submit-url', {
+        method: 'POST',
+        body: data,
+      });  // і т.д
+      */
+      this.props.getMovies();
+    }
+    
     render() {
       return (
         <div className="box">
-          <p> add a movie </p>
-        </div>
+          <form onSubmit={(e) => this.addMovie(e)}>
+          <div className="form-group">
+            <label htmlFor="Title"> Title </label>
+            <input type="text" id="Title" name="Title" value={this.state.Title} onChange={(e) => this.handleInputChange(e)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="Year"> Year </label>
+            <input type="number" id="Year" name="Year" value={this.state.Year} onChange={(e) => this.handleInputChange(e)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="Format"> Format </label>
+            <input type="text" id="Format" name="Format" value={this.state.Format} onChange={(e) => this.handleInputChange(e)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="Stars"> Actors </label>
+            <input type="text" id="Stars" name="Stars" value={this.state.Stars} placeholder="separate with commas" onChange={(e) => this.handleInputChange(e)} required />
+          </div>
+          <button> Submit </button>
+        </form>
+      </div>
       );
     }
   }
-  
+
   class Search extends React.Component {
     constructor(props) {
       super(props);
