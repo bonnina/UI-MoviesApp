@@ -1,0 +1,43 @@
+body {
+  background-color: #e0ebeb;
+}
+
+h1 {
+  margin: 2vw 1.5vw 1vw 1.5vw;
+}
+
+.box {
+  margin: 0 1.5vw 0 1.5vw;
+  border-radius: 0.7vw;
+  background-color: #85adad;
+  padding: 2vw;
+  min-height: 20vw;
+}
+
+nav {
+  border-radius: 0.7vw;
+  background-color: #006666;
+  margin: 0 1.5vw 0 1.5vw;
+}
+
+.act {
+  background-color: #009999;
+}
+
+ul li {
+  display: inline;
+  list-style-type: none;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #ffd9b3;
+  font-weight: bold;
+  display: inline-block;
+  padding: 2vw;
+}
+
+ul li a:active {
+  background-color: #009999;
+}
+
