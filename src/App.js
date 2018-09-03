@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
-
 let j = []; 
 
 class SPA extends React.Component {
@@ -39,7 +38,7 @@ class SPA extends React.Component {
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" component={MovieList} />
+            <Route exact path="/" render={(props) => <MovieList {...props} m={this.state.movieTitles}/>} />
             <Route exact path="/add" component={Add} />
             <Route exact path="/search" component={Search} />
           </div>
@@ -81,67 +80,19 @@ class SPA extends React.Component {
         ? <div className="box">Loading movies...</div> 
         : 
       */
-          (!this.state.movieTitles.length) 
-          ? <div className="box"><p>No movies yet.. <Link to="/add">Add movies?</Link></p></div>  
+          (!this.props.m.length) 
+          ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ul>
-                {this.state.movieTitles.map((a,b) => 
-                  <li key={a}> {b}             
-                    <button type="button" className="del" > Delete </button>
-                    <button type="button" className="details"> Details </button>
+                {this.props.m.sort().map(el => 
+                  <li> {el}             
+                    <button type="button" className="d"> Details </button>
+                    <button type="button" className="d"> Delete </button>
                </li>)}
               </ul>
             </div>
        );
-      /*
-      // фільми таблицею
-      let movies = this.state.movies.map((film, key) => {
-         return (
-          <tr key={key}>
-            <td>{film.Title}</td>
-            <td>{film.ReleaseYear}</td>
-            <td>{film.Format}</td>
-            <td>{film.Stars}</td>
-            <td>
-              <button 
-                type="button" 
-                className="del"
-                onClick={this.deleteMovie.bind(this, film.id)}>
-                  Delete
-              </button>
-            </td>
-          </tr>
-        )
-      })
-      return (
-        !movies.length
-          ? <div className="box">
-              <p>No movies yet.. <Link to="/add"> Add movies?</Link></p>     
-            </div>
-          : <div className="box">
-           <table className="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Year</th>
-                  <th>Format</th>
-                  <th>Stars</th>
-                </tr>
-              </thead>
-              <tbody>
-                {movies}
-              </tbody>
-            </table>
-          </div>
-       );
-       */
     }
-  /*  deleteMovie (id) {
-      store.dispatch({
-        type: 'DELETE_MOVIE',
-        id
-      })
-    } */
   }
 
   class Add extends React.Component {
