@@ -2,8 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
-let j = []; 
-
 class SPA extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +17,7 @@ class SPA extends React.Component {
     this.state = {
       details: this.newMovie,
       movies: [],
-      movieTitles: ["Titanic", "Angel A"],
+      movieTitles: ["Titanic", "Angel A"], // треба прибрати потім захардкоджене
       loading: false
     } 
   }
@@ -39,23 +37,23 @@ class SPA extends React.Component {
     fetch('some url', {
         method: 'GET',
         headers: {
+        // що тут писати?
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         body: //
       })
       .then(response => response.json())
-      .then(json => { j = Object.assign([], json); return json.map(movie => movie.Title).sort(); })  
-      .then(movieTitles =>
+      .then(json => {this.setState({movies: Object.assign([], json)}); return json.map(movie => movie.Title); })  
+      .then(titles =>
         this.setState({
-          movieTitles,
-          loading: false,
-          movies: j   // так можна?
+          movieTitles: titles,
+          loading: false
         })
       )
     */
   }
 
-  movieDetails(_id) {  
+  movieDetails(_id) {  //  el._id я передавала при створенні списку заголовків фільмів
     this.setState({
       details: this.state.movies.find(el => el._id == _id)
     });
@@ -162,17 +160,29 @@ class SPA extends React.Component {
     }
     
     addMovie(e) {
-      e.preventDefault();
+      if (!e.target.checkValidity()) {
+        // form is invalid, so do nothing
+        return;
+      }
+
       const data = new FormData(e.target);
-      const actors = data.get('Stars').split(',');
-      data.set('Stars', actors); // але ж на акторів окрема база даних.. чи цей масив допоможе?
-      /*
-      fetch('/api/form-submit-url', {
+      const actorsArr = form.elements.stars.split(','); // VS каже, що data.get('stars') не можна використати. Замінити. 
+      data.set('stars', actorsArr); // але ж на акторів окрема база даних.. чи цей масив допоможе?
+   
+      fetch('localhost:3000/movies', {
         method: 'POST',
+        headers: {'Content-Type':'application/json'},
         body: data,
-      });  // і т.д
-      */
-      this.props.getMovies();
+      })
+      .then(response => response.json())
+      .then(j => console.log(j.movieId));
+
+      // прийде назад movieId, куди його?
+      this.props.getMovies(); 
+    
+    // прийде назад movieId, куди його?
+
+    this.props.getMovies();
     }
     
     render() {
