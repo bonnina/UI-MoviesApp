@@ -7,11 +7,11 @@ class SPA extends React.Component {
     super(props);
 
     this.newMovie = {
-      _id: '', // звідки я його братиму у випадку вводу вручну?
-      Title: '',
-      Year: '',
-      Format: '',
-      Stars: '' // поки буде строкою, але потім мабуть треба в масив
+      _id: '', 
+      title: '',
+      year: '',
+      format: '',
+      stars: '' // поки буде строкою, потім в масив
     };
 
     this.state = {
@@ -33,24 +33,26 @@ class SPA extends React.Component {
   } 
   
   getMovies() {
-    /*
-    fetch('some url', {
+    fetch('localhost:3000/movies', {
         method: 'GET',
-        headers: {
-        // що тут писати?
-          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        },
-        body: //
+        headers: {'Content-Type':'application/json'}
+        // чи потрібне body?
       })
-      .then(response => response.json())
-      .then(json => {this.setState({movies: Object.assign([], json)}); return json.map(movie => movie.Title); })  
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong');
+        }
+      })
+      .then(json => {this.setState({movies: Object.assign([], json)}); return json.map(movie => movie.title); })  
       .then(titles =>
         this.setState({
           movieTitles: titles,
           loading: false
         })
       )
-    */
+      .catch(error => console.log(error.message));
   }
 
   movieDetails(_id) {  //  el._id я передавала при створенні списку заголовків фільмів
@@ -84,9 +86,9 @@ class SPA extends React.Component {
             </h1>
             <nav>
               <ul>
-                <li><Link id="default" to="/" activeClassName="act">My movies</Link></li>
-                <li><Link to="/add" activeClassName="act">Add</Link></li>
-                <li><Link to="/search" activeClassName="act">Search</Link></li>
+                <li><Link id="default" to="/" >My movies</Link></li>
+                <li><Link to="/add" >Add</Link></li>
+                <li><Link to="/search" >Search</Link></li>
               </ul>
             </nav>
           </header>
@@ -132,7 +134,7 @@ class SPA extends React.Component {
         ? <div className="box">Loading movies...</div> 
         : 
       */
-          (!this.props.m.length) // перевірити щодо (movie._id) і додати в <li> key
+          (!this.props.m.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ol>
@@ -166,7 +168,7 @@ class SPA extends React.Component {
       }
 
       const data = new FormData(e.target);
-      const actorsArr = form.elements.stars.split(','); // VS каже, що data.get('stars') не можна використати. Замінити. 
+      const actorsArr = e.target.elements.stars.split(','); // VS каже, що data.get('stars') не можна використати. Замінити. 
       data.set('stars', actorsArr); // але ж на акторів окрема база даних.. чи цей масив допоможе?
    
       fetch('localhost:3000/movies', {
@@ -174,15 +176,18 @@ class SPA extends React.Component {
         headers: {'Content-Type':'application/json'},
         body: data,
       })
-      .then(response => response.json())
-      .then(j => console.log(j.movieId));
-
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong');
+        }
+      })
+      .then(j => console.log(j.movieId))
+      .catch(error => console.log(error.message));
       // прийде назад movieId, куди його?
-      this.props.getMovies(); 
-    
-    // прийде назад movieId, куди його?
 
-    this.props.getMovies();
+      this.props.getMovies(); 
     }
     
     render() {
@@ -191,19 +196,19 @@ class SPA extends React.Component {
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
-            <input type="text" id="Title" name="Title" value={this.state.Title} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="text" id="Title" name="title" value={this.state.Title} onChange={(e) => this.handleInputChange(e)} required />
           </div>
           <div className="form-group">
             <label htmlFor="Year"> Year </label>
-            <input type="number" id="Year" name="Year" value={this.state.Year} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="number" id="Year" name="year" value={this.state.Year} onChange={(e) => this.handleInputChange(e)} required />
           </div>
           <div className="form-group">
             <label htmlFor="Format"> Format </label>
-            <input type="text" id="Format" name="Format" value={this.state.Format} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="text" id="Format" name="format" value={this.state.Format} onChange={(e) => this.handleInputChange(e)} required />
           </div>
           <div className="form-group">
             <label htmlFor="Stars"> Actors </label>
-            <input type="text" id="Stars" name="Stars" value={this.state.Stars} placeholder="separate with commas" onChange={(e) => this.handleInputChange(e)} required />
+            <input type="text" id="Stars" name="stars" value={this.state.Stars} placeholder="separate with commas" onChange={(e) => this.handleInputChange(e)} required />
           </div>
           <button> Submit </button>
         </form>
