@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 
 class SPA extends React.Component {
   constructor(props) {
@@ -221,10 +221,17 @@ class SPA extends React.Component {
      this.props.getMovies(); 
       
     }
-    
+    // файл потім, спочатку дороблю деліт
     render() {
       return (
         <div className="box">
+          <span>Upload a file</span>
+            <label>
+              <input type="file" placeholder="please, select a file"/>
+            </label>
+
+        <p>or fill in this form</p>
+
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
