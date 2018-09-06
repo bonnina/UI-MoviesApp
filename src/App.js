@@ -20,6 +20,9 @@ class SPA extends React.Component {
       movieTitles: ["Titanic", "Angel A"], // треба прибрати потім захардкоджене
       loading: false
     } 
+
+    this.getMovies = this.getMovies.bind(this);
+    this.movieDetails = this.movieDetails.bind(this);
   }
   
   componentWillMount() {
@@ -33,31 +36,42 @@ class SPA extends React.Component {
   } 
   
   getMovies() {
+    this.setState({ 
+      loading: true 
+    });
+    
+    let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    function handleErrors(response) {
+      if (!response.ok) {
+          throw Error(response.statusText);
+      }
+      return response;
+    }
+
     fetch('localhost:3000/movies', {
         method: 'GET',
-        headers: {'Content-Type':'application/json'}
-        // чи потрібне body?
+        headers: myHeaders
       })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong');
-        }
-      })
-      .then(json => {this.setState({movies: Object.assign([], json)}); return json.map(movie => movie.title); })  
-      .then(titles =>
-        this.setState({
-          movieTitles: titles,
-          loading: false
-        })
-      )
+    .then(handleErrors)
+    .then(response => console.log("ok") )
+    .catch(error => console.log(error) );
+       /*
+      .then(response => response.json())
+      .then(function(json)  {
+        console.log(JSON.parse(json));
+        this.setState({ movies: Object.assign([], json), loading: false }); 
+        return json.map(movie => movie.title); })  
+      .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
+      */
+  
   }
 
   movieDetails(_id) {  //  el._id я передавала при створенні списку заголовків фільмів
     this.setState({
-      details: this.state.movies.find(el => el._id == _id)
+      details: this.state.movies.find(el => el._id === _id)
     });
   }
 
@@ -86,9 +100,9 @@ class SPA extends React.Component {
             </h1>
             <nav>
               <ul>
-                <li><Link id="default" to="/" >My movies</Link></li>
-                <li><Link to="/add" >Add</Link></li>
-                <li><Link to="/search" >Search</Link></li>
+                <li><Link id="default" to="/"> My movies </Link></li>
+                <li><Link to="/add"> Add </Link></li>
+                <li><Link to="/search"> Search </Link></li>
               </ul>
             </nav>
           </header>
@@ -154,61 +168,73 @@ class SPA extends React.Component {
       super(props);
       this.state = props.details // як краще?
     }
-    
+    /*
     handleInputChange(e) {
       this.setState({
         [e.target.name]: e.target.value
       });
     }
-    
+    */
     addMovie(e) {
       if (!e.target.checkValidity()) {
         // form is invalid, so do nothing
         return;
       }
-
-      const data = new FormData(e.target);
-      const actorsArr = e.target.elements.stars.split(','); // VS каже, що data.get('stars') не можна використати. Замінити. 
-      data.set('stars', actorsArr); // але ж на акторів окрема база даних.. чи цей масив допоможе?
-   
+    
+      // const data = new FormData(e.target);
+      // const actorsArr = e.target.elements.stars.value.split(','); 
+      // data.set('stars', actorsArr); 
+      console.log({
+        "title": e.target.elements.title.value,
+        "year": e.target.elements.year.value,
+        "format": e.target.elements.format.value,
+        "stars":  [...e.target.elements.stars.value]
+       });
+      
       fetch('localhost:3000/movies', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: data,
+        body: JSON.stringify({
+           "title": e.target.elements.title.value,
+           "year": e.target.elements.year.value,
+           "format": e.target.elements.format.value,
+           "stars":  [...e.target.elements.stars.value]
+          })
       })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong');
-        }
-      })
+      .then(response => response.json())
       .then(j => console.log(j.movieId))
-      .catch(error => console.log(error.message));
-      // прийде назад movieId, куди його?
+      .catch(error => {
+        if (error.response) {
+          console.log('Code: ' + error.response.data.error.code + 
+                '\r\nMessage: ' + error.response.data.error.message);
+        } else {
+          console.log('Failed to add movie');
+        }
+      });  
 
-      this.props.getMovies(); 
+     this.props.getMovies(); 
+      
     }
-    
+    // value={this.state.Title} onChange={(e) => this.handleInputChange(e)}
     render() {
       return (
         <div className="box">
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
-            <input type="text" id="Title" name="title" value={this.state.Title} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="text" id="Title" name="title"  required />
           </div>
           <div className="form-group">
             <label htmlFor="Year"> Year </label>
-            <input type="number" id="Year" name="year" value={this.state.Year} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="number" id="Year" name="year" required />
           </div>
           <div className="form-group">
             <label htmlFor="Format"> Format </label>
-            <input type="text" id="Format" name="format" value={this.state.Format} onChange={(e) => this.handleInputChange(e)} required />
+            <input type="text" id="Format" name="format" required />
           </div>
           <div className="form-group">
             <label htmlFor="Stars"> Actors </label>
-            <input type="text" id="Stars" name="stars" value={this.state.Stars} placeholder="separate with commas" onChange={(e) => this.handleInputChange(e)} required />
+            <input type="number" id="Stars" name="stars" placeholder="separate with commas" required />
           </div>
           <button> Submit </button>
         </form>
