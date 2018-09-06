@@ -179,12 +179,25 @@ class SPA extends React.Component {
       // const data = new FormData(e.target);
       // const actorsArr = e.target.elements.stars.value.split(','); 
       // data.set('stars', actorsArr); 
-      console.log({
-        "title": e.target.elements.title.value,
+      
+        function sanitize(string) {  // потім підібрати якийсь пекедж
+          const map = {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#x27;',
+              "/": '&#x2F;',
+          };
+          const reg = /[&<>"'/]/ig;
+          return string.replace(reg, (match)=>(map[match]));
+        }
+      let formData = {
+        "title": sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
-        "format": e.target.elements.format.value,
-        "stars":  [...e.target.elements.stars.value]  // тут поки цифра, потім буде співвідноситись з актором у списку
-       });
+        "format": sanitize(e.target.elements.format.value),
+        "stars":  [...Number(e.target.elements.stars.value)]  // поки цифра, потім буде співвідноситись з актором у списку
+       };
 
       let myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
@@ -192,12 +205,7 @@ class SPA extends React.Component {
       fetch('http://localhost:3000/movies', {
         method: 'POST',
         headers: myHeaders,
-        body: JSON.stringify({
-           "title": e.target.elements.title.value,
-           "year": e.target.elements.year.value,
-           "format": e.target.elements.format.value,
-           "stars":  [...e.target.elements.stars.value]
-          })
+        body: JSON.stringify(formData)
       })
       .then(response => response.json())
       .then(j => console.log(j.movieId))
@@ -248,8 +256,8 @@ class SPA extends React.Component {
     render() {
       return (
         <div className="box">
-          <p> search by name </p>
-          <p> search by actor </p>
+          <p> search by name here soon... </p>
+          <p> search by actor here soon...  </p>
         </div>
       );
     }
