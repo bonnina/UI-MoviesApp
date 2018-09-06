@@ -39,33 +39,25 @@ class SPA extends React.Component {
     this.setState({ 
       loading: true 
     });
-    
+    /*
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-
     function handleErrors(response) {
       if (!response.ok) {
           throw Error(response.statusText);
       }
       return response;
     }
-
-    fetch('localhost:3000/movies', {
-        method: 'GET',
-        headers: myHeaders
-      })
-    .then(handleErrors)
-    .then(response => console.log("ok") )
-    .catch(error => console.log(error) );
-       /*
+    */
+    fetch('http://localhost:3000/movies')
       .then(response => response.json())
       .then(function(json)  {
-        console.log(JSON.parse(json));
-        this.setState({ movies: Object.assign([], json), loading: false }); 
-        return json.map(movie => movie.title); })  
+        console.log(json);
+      //  this.setState({ movies: Object.assign([], json), loading: false }); 
+        return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
-      */
+      
   
   }
 
@@ -147,14 +139,15 @@ class SPA extends React.Component {
        return ( /* (loading) 
         ? <div className="box">Loading movies...</div> 
         : 
-      */
+      */ 
+     
           (!this.props.m.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ol>
                 {this.props.m.sort().map(el => 
-                  <li key={el._id}> {el}             
-                    <button type="button" className="d" onClick={() => this.props.showDetails(el._id)}><Link to="/details"> Details </Link></button>
+                  <li key={el.Id}> {el}             
+                    <button type="button" className="d" onClick={() => this.props.showDetails(el.Id)}><Link to="/details"> Details </Link></button>
                     <button type="button" className="d"> Delete </button>
                </li>)}
               </ol>
