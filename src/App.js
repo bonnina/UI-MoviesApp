@@ -23,14 +23,14 @@ class SPA extends React.Component {
 
     this.getMovies = this.getMovies.bind(this);
     this.movieDetails = this.movieDetails.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this);
   }
   
   componentWillMount() {
     window.onload = () => {
-      document.querySelector("#default").click();
+      document.querySelector('#default').click();
     };
   }  
-    
   componentDidMount() {
     this.getMovies()
   } 
@@ -43,7 +43,6 @@ class SPA extends React.Component {
     fetch('http://localhost:3000/movies')
       .then(response => response.json())
       .then(json => {
-        // console.log(this.state.movies[0].Title);
         this.setState({ movies: json, loading: false }); 
         return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
@@ -57,12 +56,27 @@ class SPA extends React.Component {
     });
   }
 
+  deleteMovie(id) {
+    this.setState({loading: true});
+
+    let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    fetch('', {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: id
+    });
+
+    this.getMovies();
+  }
+
      render() {
       return (
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} m={this.state.movieTitles} showDetails={this.movieDetails}/>} />
+            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} m={this.state.movieTitles} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies}/>} />
             <Route exact path="/search" component={Search} />
@@ -88,7 +102,6 @@ class SPA extends React.Component {
               </ul>
             </nav>
           </header>
-          {this.props.children} 
         </div>
       );
     }
@@ -139,10 +152,10 @@ class SPA extends React.Component {
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ol>
-                {this.props.m.sort().map(el => 
+                {this.props.m.map(el => 
                   <li key={this.filter(el)}> {el}             
                     <button type="button" className="d" onClick={() => this.props.showDetails(el.Id)}><Link to="/details"> Details </Link></button>
-                    <button type="button" className="d"> Delete </button>
+                    <button type="button" className="d" onClick={() => this.props.del(el.Id)}> Delete </button>
                   </li>)
                 }
               </ol>
@@ -177,10 +190,13 @@ class SPA extends React.Component {
         "format": e.target.elements.format.value,
         "stars":  [...e.target.elements.stars.value]
        });
-      
+
+      let myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+
       fetch('localhost:3000/movies', {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        headers: myHeaders,
         body: JSON.stringify({
            "title": e.target.elements.title.value,
            "year": e.target.elements.year.value,
