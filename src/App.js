@@ -39,22 +39,12 @@ class SPA extends React.Component {
     this.setState({ 
       loading: true 
     });
-    /*
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    function handleErrors(response) {
-      if (!response.ok) {
-          throw Error(response.statusText);
-      }
-      return response;
-    }
-    */
-
+    
     fetch('http://localhost:3000/movies')
       .then(response => response.json())
       .then(json => {
+        // console.log(this.state.movies[0].Title);
         this.setState({ movies: json, loading: false }); 
-        console.log(this.state.movies[0]);
         return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
@@ -72,7 +62,7 @@ class SPA extends React.Component {
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" render={(props) => <MovieList {...props} m={this.state.movieTitles} showDetails={this.movieDetails}/>} />
+            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} m={this.state.movieTitles} showDetails={this.movieDetails}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies}/>} />
             <Route exact path="/search" component={Search} />
@@ -130,23 +120,31 @@ class SPA extends React.Component {
   class MovieList extends React.Component {
     constructor(props) {
       super(props);
+      this.filter = this.filter.bind(this);
     }
+
+  filter(i) {
+    let film = this.props.moviesArr.find(el => el.Title === i);
+    return film.Id;
+  }
+
     render() {
       // назви фільмів в алфавітному порядку
        return ( /* (loading) 
         ? <div className="box">Loading movies...</div> 
         : 
       */ 
-     
+     // 
           (!this.props.m.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ol>
                 {this.props.m.sort().map(el => 
-                  <li key={el.Id}> {el}             
+                  <li key={this.filter(el)}> {el}             
                     <button type="button" className="d" onClick={() => this.props.showDetails(el.Id)}><Link to="/details"> Details </Link></button>
                     <button type="button" className="d"> Delete </button>
-               </li>)}
+                  </li>)
+                }
               </ol>
             </div>
        );
