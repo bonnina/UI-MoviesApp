@@ -7,17 +7,17 @@ class SPA extends React.Component {
     super(props);
 
     this.newMovie = {
-      _id: '', 
-      title: '',
-      year: '',
-      format: '',
-      stars: '' // поки буде строкою, потім в масив
+      id: '', 
+      Title: '',
+      Year: '',
+      Format: '',
+      Stars: '' // поки буде строкою, потім в масив
     };
 
     this.state = {
       details: this.newMovie,
       movies: [],
-      movieTitles: ["Titanic", "Angel A"], // треба прибрати потім захардкоджене
+      movieTitles: [], 
       loading: false
     } 
 
@@ -49,21 +49,21 @@ class SPA extends React.Component {
       return response;
     }
     */
+
     fetch('http://localhost:3000/movies')
       .then(response => response.json())
-      .then(function(json)  {
-        console.log(json);
-      //  this.setState({ movies: Object.assign([], json), loading: false }); 
+      .then(json => {
+        this.setState({ movies: json, loading: false }); 
+        console.log(this.state.movies[0]);
         return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
       
-  
   }
 
-  movieDetails(_id) {  //  el._id я передавала при створенні списку заголовків фільмів
+  movieDetails(elemId) {  //  elemId я передавала при створенні списку заголовків фільмів
     this.setState({
-      details: this.state.movies.find(el => el._id === _id)
+      details: this.state.movies.find(el => el.id === elemId)
     });
   }
 
@@ -109,21 +109,18 @@ class SPA extends React.Component {
       super(props);
       this.state = props.details
     }
-    /*
+    // зробити щоб оновлювалось
     componentWillReceiveProps(nextProps) {
       this.setState(nextProps.details);
     }
-    */
+    
     render() {
-      /*
-      <h2> {this.state.Title} </h2>
-      <p className=""> Release year: {this.state.Year} </p>
-      <p className=""> Format: {this.state.Format} </p>
-      <p className=""> Stars: {this.state.Stars} </p>
-      */
       return (
         <div className="box">
-          <p> details here soon</p>
+          <h2> {this.state.Title} </h2>
+          <p className=""> Release year: {this.state.Year} </p>
+          <p className=""> Format: {this.state.Format} </p>
+          <p className=""> Stars: details here soon.. </p>
           <button type="button"><Link to="/"> Back to movies </Link></button>
         </div>
       );
@@ -170,7 +167,6 @@ class SPA extends React.Component {
     */
     addMovie(e) {
       if (!e.target.checkValidity()) {
-        // form is invalid, so do nothing
         return;
       }
     
