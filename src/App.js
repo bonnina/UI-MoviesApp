@@ -11,7 +11,7 @@ class SPA extends React.Component {
       Title: '',
       Year: '',
       Format: '',
-      Stars: '' // поки буде строкою, потім в масив
+      Stars: '' // поки строкою, потім в масив
     };
 
     this.state = {
@@ -28,7 +28,7 @@ class SPA extends React.Component {
   
   componentWillMount() {
     window.onload = () => {
-      document.querySelector('#default').click();
+      document.querySelector('#home').click();
     };
   }  
   componentDidMount() {
@@ -44,13 +44,14 @@ class SPA extends React.Component {
       .then(response => response.json())
       .then(json => {
         this.setState({ movies: json, loading: false }); 
+       // потім прибр.
         return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
       
   }
 
-  movieDetails(elemId) {  //  elemId я передавала при створенні списку заголовків фільмів
+  movieDetails(elemId) {  
     this.setState({
       details: this.state.movies.find(el => el.id === elemId)
     });
@@ -61,12 +62,15 @@ class SPA extends React.Component {
 
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-
-    fetch('', {
+    let url = `http://localhost:3000/movies/${id}`;
+// поки не працює
+    fetch(url, {
       method: 'DELETE',
       headers: myHeaders,
       body: id
-    });
+    })
+    .then(response => response.statusText)  //тимчасово
+    .catch(error => console.log(error.message));
 
     this.getMovies();
   }
@@ -96,7 +100,7 @@ class SPA extends React.Component {
             </h1>
             <nav>
               <ul>
-                <li><Link id="default" to="/"> My movies </Link></li>
+                <li><Link id="home" to="/"> My movies </Link></li>
                 <li><Link to="/add"> Add </Link></li>
                 <li><Link to="/search"> Search </Link></li>
               </ul>
@@ -110,9 +114,8 @@ class SPA extends React.Component {
   class Details extends React.Component {
     constructor(props) {
       super(props);
-      this.state = props.details
     }
-    // зробити щоб оновлювалось
+    
     componentWillReceiveProps(nextProps) {
       this.setState(nextProps.details);
     }
@@ -120,9 +123,9 @@ class SPA extends React.Component {
     render() {
       return (
         <div className="box">
-          <h2> {this.state.Title} </h2>
-          <p className=""> Release year: {this.state.Year} </p>
-          <p className=""> Format: {this.state.Format} </p>
+          <h2> {this.props.details.Title} </h2>
+          <p className=""> Release year: {this.props.details.Year} </p>
+          <p className=""> Format: {this.props.details.Format} </p>
           <p className=""> Stars: details here soon.. </p>
           <button type="button"><Link to="/"> Back to movies </Link></button>
         </div>
@@ -142,12 +145,11 @@ class SPA extends React.Component {
   }
 
     render() {
-      // назви фільмів в алфавітному порядку
+      // назви фільмів в алфав. порядку
        return ( /* (loading) 
         ? <div className="box">Loading movies...</div> 
         : 
       */ 
-     // 
           (!this.props.m.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
@@ -167,15 +169,8 @@ class SPA extends React.Component {
   class Add extends React.Component {
     constructor(props) {
       super(props);
-      this.state = props.details // як краще?
     }
-    /*
-    handleInputChange(e) {
-      this.setState({
-        [e.target.name]: e.target.value
-      });
-    }
-    */
+
     addMovie(e) {
       if (!e.target.checkValidity()) {
         return;
@@ -188,13 +183,13 @@ class SPA extends React.Component {
         "title": e.target.elements.title.value,
         "year": e.target.elements.year.value,
         "format": e.target.elements.format.value,
-        "stars":  [...e.target.elements.stars.value]
+        "stars":  [...e.target.elements.stars.value]  // тут поки цифра, потім буде співвідноситись з актором у списку
        });
 
       let myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
 
-      fetch('localhost:3000/movies', {
+      fetch('http://localhost:3000/movies', {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify({
@@ -218,7 +213,7 @@ class SPA extends React.Component {
      this.props.getMovies(); 
       
     }
-    // value={this.state.Title} onChange={(e) => this.handleInputChange(e)}
+    
     render() {
       return (
         <div className="box">
