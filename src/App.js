@@ -63,7 +63,7 @@ class SPA extends React.Component {
     myHeaders.append('Content-Type', 'application/json');
     let url = `http://localhost:3000/movies/${id}`;
 // поки не працює, id не передається з мувіліст
-    fetch('http://localhost:3000/movies/7', {
+    fetch(url, {
       method: 'DELETE',
       headers: myHeaders
     })
