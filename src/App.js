@@ -47,30 +47,43 @@ class SPA extends React.Component {
         return json.map(el => el.Title); })  
       .then(titles => this.setState({ movieTitles: titles }))
       .catch(error => console.log(error.message));
-      
   }
 
-  movieDetails(elemId) {  
+  movieDetails(elem) {  
+   // console.log(elem);
     this.setState({
-      details: this.state.movies.find(el => el.id === elemId)
+      details: this.state.movies.find(el => el.Title === elem)
     });
   }
 
-  deleteMovie(id) {
-    this.setState({loading: true});
+  deleteMovie(elem) {
+    let film = this.state.movies.find(el => el.Title === elem);
+    let id = film.Id;
+    let index = this.state.movieTitles.indexOf(elem);
+    console.log("index: " + index);
+    this.setState({
+      loading: true
+    });
 
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     let url = `http://localhost:3000/movies/${id}`;
-// поки не працює, id не передається з мувіліст
+
     fetch(url, {
       method: 'DELETE',
       headers: myHeaders
     })
-    .then(response => console.log(response.statusText))  // тимч.
+    .then(response => console.log(response.statusText))
+    .then(() => {
+      this.getMovies();
+      this.setState({  // прибрати, коли виправлю масиви в стейті (прибрати масив із заголовками)
+        loading: false,
+        movieTitles: [...this.state.movieTitles.slice(0, index), ...this.state.movieTitles.slice(index + 1)]
+      });
+    })
     .catch(error => console.log(error.message));
-
-    this.getMovies();
+    
+  //  this.getMovies();
   }
 
      render() {
@@ -115,7 +128,9 @@ class SPA extends React.Component {
     }
     
     componentWillReceiveProps(nextProps) {
-      this.setState(nextProps.details);
+      if (this.props !== nextProps) {
+        this.setState(nextProps.details);
+      }
     }
     
     render() {
@@ -154,8 +169,8 @@ class SPA extends React.Component {
               <ol>
                 {this.props.m.map(el => 
                   <li key={this.filter(el)}> {el}             
-                    <button type="button" className="d" onClick={() => this.props.showDetails(el.Id)}><Link to="/details"> Details </Link></button>
-                    <button type="button" className="d" onClick={() => this.props.del(el.Id)}> Delete </button>
+                    <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                    <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
                   </li>)
                 }
               </ol>
@@ -217,7 +232,6 @@ class SPA extends React.Component {
       });  
 
      this.props.getMovies(); 
-      
     }
     // файл потім, спочатку дороблю деліт
     render() {
