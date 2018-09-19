@@ -134,12 +134,13 @@ class SPA extends React.Component {
     }
     
     render() {
+      let stars = this.props.details.Stars.map(el => el.StarName).join(', ');
       return (
         <div className="box">
           <h2> {this.props.details.Title} </h2>
           <p className=""> Release year: {this.props.details.Year} </p>
           <p className=""> Format: {this.props.details.Format} </p>
-          <p className=""> Stars: details here soon.. </p>
+          <p className=""> Stars: {stars} </p>
           <button type="button"><Link to="/"> Back to movies </Link></button>
         </div>
       );

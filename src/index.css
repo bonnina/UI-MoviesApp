@@ -65,3 +65,19 @@ ul li a:active {
   background-color: #009999;
 }
 
+input {
+  margin: 0.3vw;
+  font: 1vw 'Poiret One', cursive;
+  border-radius: 0.4vw;
+  border: none;
+  box-shadow: none;
+  height: 1.8vw;
+  width: 20vw;
+  padding-left: 0.3vw;
+}
+
+input[type='file'] {
+  color: #006666;
+  margin-left: 1vw;
+  font-weight: bold;
+}
