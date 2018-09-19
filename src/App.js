@@ -16,7 +16,6 @@ class SPA extends React.Component {
     this.state = {
       details: this.newMovie,
       movies: [],
-      movieTitles: [], 
       loading: false
     } 
 
@@ -42,24 +41,22 @@ class SPA extends React.Component {
     fetch('http://localhost:3000/movies')
       .then(response => response.json())
       .then(json => {
-        this.setState({ movies: json, loading: false }); 
-       // потім прибр.
-        return json.map(el => el.Title); })  
-      .then(titles => this.setState({ movieTitles: titles }))
+        this.setState({ movies: json, loading: false });
+      }) 
       .catch(error => console.log(error.message));
   }
 
   movieDetails(elem) {  
    // console.log(elem);
     this.setState({
-      details: this.state.movies.find(el => el.Title === elem)
+      details: this.state.movies.find(el => el.Id === elem.Id)
     });
   }
 
   deleteMovie(elem) {
-    let film = this.state.movies.find(el => el.Title === elem);
+    let film = this.state.movies.find(el => el === elem);
     let id = film.Id;
-    let index = this.state.movieTitles.indexOf(elem);
+    let index = this.state.movies.indexOf(elem);
     console.log("index: " + index);
     this.setState({
       loading: true
@@ -78,12 +75,10 @@ class SPA extends React.Component {
       this.getMovies();
       this.setState({  // прибрати, коли виправлю масиви в стейті (прибрати масив із заголовками)
         loading: false,
-        movieTitles: [...this.state.movieTitles.slice(0, index), ...this.state.movieTitles.slice(index + 1)]
+        movies: [...this.state.movies.slice(0, index), ...this.state.movies.slice(index + 1)]
       });
     })
     .catch(error => console.log(error.message));
-    
-  //  this.getMovies();
   }
 
      render() {
@@ -91,7 +86,7 @@ class SPA extends React.Component {
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} m={this.state.movieTitles} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
+            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies}/>} />
             <Route exact path="/search" component={Search} />
@@ -123,9 +118,6 @@ class SPA extends React.Component {
   }
 
   class Details extends React.Component {
-    constructor(props) {
-      super(props);
-    }
     
     componentWillReceiveProps(nextProps) {
       if (this.props !== nextProps) {
@@ -141,35 +133,25 @@ class SPA extends React.Component {
           <p className=""> Release year: {this.props.details.Year} </p>
           <p className=""> Format: {this.props.details.Format} </p>
           <p className=""> Stars: {stars} </p>
-          <button type="button"><Link to="/"> Back to movies </Link></button>
+          <button type="button" className="left"><Link to="/"> Back to movies </Link></button>
         </div>
       );
     }
   }
 
   class MovieList extends React.Component {
-    constructor(props) {
-      super(props);
-      this.filter = this.filter.bind(this);
-    }
-
-  filter(i) {
-    let film = this.props.moviesArr.find(el => el.Title === i);
-    return film.Id;
-  }
-
     render() {
       // назви фільмів в алфав. порядку
        return ( /* (loading) 
         ? <div className="box">Loading movies...</div> 
         : 
       */ 
-          (!this.props.m.length) 
+          (!this.props.moviesArr.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
               <ol>
-                {this.props.m.map(el => 
-                  <li key={this.filter(el)}> {el}             
+                {this.props.moviesArr.map(el => 
+                  <li key={el.Id}> {el.Title}             
                     <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
                     <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
                   </li>)
@@ -181,9 +163,6 @@ class SPA extends React.Component {
   }
 
   class Add extends React.Component {
-    constructor(props) {
-      super(props);
-    }
 
     addMovie(e) {
       if (!e.target.checkValidity()) {
@@ -210,7 +189,7 @@ class SPA extends React.Component {
         "title": sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
         "format": sanitize(e.target.elements.format.value),
-        "stars":  [...Number(e.target.elements.stars.value)]  // поки цифра, потім буде співвідноситись з актором у списку
+        "stars":  [...sanitize(e.target.elements.stars.value)]  // поки цифра, прибрала Number()
        };
 
       let myHeaders = new Headers();
@@ -234,7 +213,7 @@ class SPA extends React.Component {
 
      this.props.getMovies(); 
     }
-    // файл потім, спочатку дороблю деліт
+    // файл потім
     render() {
       return (
         <div className="box">
@@ -262,7 +241,7 @@ class SPA extends React.Component {
             <label htmlFor="Stars"> Actors </label>
             <input type="number" id="Stars" name="stars" placeholder="separate with commas" required />
           </div>
-          <button> Submit </button>
+          <button className="left"> Submit </button>
         </form>
       </div>
       );
@@ -270,9 +249,6 @@ class SPA extends React.Component {
   }
 
   class Search extends React.Component {
-    constructor(props) {
-      super(props);
-    }
     render() {
       return (
         <div className="box">

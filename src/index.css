@@ -16,6 +16,10 @@ button {
   box-shadow: none;
 }
 
+.left {
+  margin-left: -0.1vw !important;
+}
+
 a {
   text-decoration: none;
   color: gray;
@@ -67,7 +71,7 @@ ul li a:active {
 
 input {
   margin: 0.3vw;
-  font: 1vw 'Poiret One', cursive;
+  font: 1.5vw 'Poiret One', cursive;
   border-radius: 0.4vw;
   border: none;
   box-shadow: none;
@@ -79,5 +83,10 @@ input {
 input[type='file'] {
   color: #006666;
   margin-left: 1vw;
+  font-weight: bold;
+}
+
+label {
+  font: 1.5vw 'Poiret One', cursive;
   font-weight: bold;
 }
