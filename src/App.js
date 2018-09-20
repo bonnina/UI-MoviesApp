@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Select from 'react-virtualized-select';
+import { Creatable } from 'react-select';
+import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
+import 'react-virtualized/styles.css';
+import 'react-virtualized-select/styles.css';
 
 class SPA extends React.Component {
   constructor(props) {
@@ -239,6 +240,7 @@ class SPA extends React.Component {
     }
     
     handleInputChange(e) {
+      console.log(e);
       this.setState({
         actor: e.label,
         actorId: e.value
@@ -273,8 +275,9 @@ class SPA extends React.Component {
             <input type="text" id="Format" name="format" required />
           </div>
           <div className="form-group">
-          <Select
+          <Creatable
             name="stars"
+            isMulti
             value={this.state.actor}
             options={options}
             onChange={el => this.handleInputChange(el)}  // el => console.log(el.label)
