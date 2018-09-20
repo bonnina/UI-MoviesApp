@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Creatable } from 'react-select';
-import VirtualizedSelect from 'react-virtualized-select';
-import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css';
-import 'react-virtualized-select/styles.css';
+import Select from 'react-select';
+import CreatableSelect from 'react-select/lib/Creatable';
+//import { Creatable } from 'react-select';
+//import 'react-select/dist/react-select.css';
+
 
 class SPA extends React.Component {
   constructor(props) {
@@ -250,7 +250,7 @@ class SPA extends React.Component {
 
     render() {
       let json = this.props.actors;
-      let options = json.map(el => {return {value: el.Id, label: el.Name};});
+      let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
     
       return (
         <div className="box">
@@ -275,8 +275,9 @@ class SPA extends React.Component {
             <input type="text" id="Format" name="format" required />
           </div>
           <div className="form-group">
-          <Creatable
+          <CreatableSelect
             name="stars"
+            isClearable
             isMulti
             value={this.state.actor}
             options={options}
