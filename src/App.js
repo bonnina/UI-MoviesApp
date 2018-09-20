@@ -1,5 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import Select from 'react-virtualized-select';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized/styles.css'
+import 'react-virtualized-select/styles.css'
 
 class SPA extends React.Component {
   constructor(props) {
@@ -16,10 +20,12 @@ class SPA extends React.Component {
     this.state = {
       details: this.newMovie,
       movies: [],
+      actors: [],
       loading: false
     } 
 
     this.getMovies = this.getMovies.bind(this);
+    this.getActors = this.getActors.bind(this);
     this.movieDetails = this.movieDetails.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
   }
@@ -30,7 +36,8 @@ class SPA extends React.Component {
     };
   }  
   componentDidMount() {
-    this.getMovies()
+    this.getMovies();
+    this.getActors();
   } 
   
   getMovies() {
@@ -43,6 +50,17 @@ class SPA extends React.Component {
       .then(json => {
         this.setState({ movies: json, loading: false });
       }) 
+      .catch(error => console.log(error.message));
+  }
+
+  getActors() {
+    fetch('http://localhost:3000/stars')
+      .then(response => response.json())
+      .then(json => {
+        this.setState({actors: json});
+        return json;
+      }) 
+     // .then(json => {console.log(this.state.actors[0].Name);})
       .catch(error => console.log(error.message));
   }
 
@@ -88,7 +106,7 @@ class SPA extends React.Component {
             <Head />
             <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
-            <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies}/>} />
+            <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
             <Route exact path="/search" component={Search} />
           </div>
         </BrowserRouter>
@@ -163,15 +181,20 @@ class SPA extends React.Component {
   }
 
   class Add extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        actor: '',
+        actorId: ''
+      }
 
+      this.handleInputChange = this.handleInputChange.bind(this);
+    }
+  
     addMovie(e) {
       if (!e.target.checkValidity()) {
         return;
       }
-    
-      // const data = new FormData(e.target);
-      // const actorsArr = e.target.elements.stars.value.split(','); 
-      // data.set('stars', actorsArr); 
       
         function sanitize(string) {  // потім підібрати якийсь пекедж
           const map = {
@@ -185,11 +208,12 @@ class SPA extends React.Component {
           const reg = /[&<>"'/]/ig;
           return string.replace(reg, (match)=>(map[match]));
         }
+      
       let formData = {
         "title": sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
         "format": sanitize(e.target.elements.format.value),
-        "stars":  [...sanitize(e.target.elements.stars.value)]  // поки цифра, прибрала Number()
+        "stars":  [Number(this.state.actorId)]  // [...Number(this.state.actorId)] не працювало
        };
 
       let myHeaders = new Headers();
@@ -213,8 +237,19 @@ class SPA extends React.Component {
 
      this.props.getMovies(); 
     }
-    // файл потім
+    
+    handleInputChange(e) {
+      this.setState({
+        actor: e.label,
+        actorId: e.value
+      });
+      
+    }
+
     render() {
+      let json = this.props.actors;
+      let options = json.map(el => {return {value: el.Id, label: el.Name};});
+    
       return (
         <div className="box">
           <span>Upload a file</span>
@@ -238,8 +273,12 @@ class SPA extends React.Component {
             <input type="text" id="Format" name="format" required />
           </div>
           <div className="form-group">
-            <label htmlFor="Stars"> Actors </label>
-            <input type="number" id="Stars" name="stars" placeholder="separate with commas" required />
+          <Select
+            name="stars"
+            value={this.state.actor}
+            options={options}
+            onChange={el => this.handleInputChange(el)}  // el => console.log(el.label)
+          />
           </div>
           <button className="left"> Submit </button>
         </form>
