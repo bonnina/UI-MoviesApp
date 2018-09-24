@@ -6,8 +6,7 @@ class Add extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        actor: '',
-        actorId: ''
+        actorIds: []
       }
 
       this.handleInputChange = this.handleInputChange.bind(this);
@@ -34,7 +33,7 @@ class Add extends React.Component {
         "title": sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
         "format": sanitize(e.target.elements.format.value),
-        "stars":  [Number(this.state.actorId)]  // [...Number(this.state.actorId)] не працювало
+        "stars":  this.state.actorIds  // [...Number(this.state.actorId)] 
        };
 
       let myHeaders = new Headers();
@@ -59,13 +58,51 @@ class Add extends React.Component {
      this.props.getMovies(); 
     }
     
-    handleInputChange(e) {
-      console.log(e);
-      this.setState({
-        actor: e.label,
-        actorId: e.value
-      });
-      
+    handleInputChange(opt, meta) {
+      switch(meta.action) {
+        case 'clear':
+        this.setState({
+          actorIds: []
+        });
+        break;
+
+        case 'select-option':
+        this.setState({
+          actorIds: [...this.state.actorIds, opt[opt.length -1].value]
+        });
+        break;
+
+        case 'create-option':
+        let formData = {
+          "name": opt[0].label,
+        };
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        fetch('http://localhost:3000/stars', {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(json => {
+          console.log("Received actor Id: " + json.Id);
+          this.setState({
+            actorIds: [...this.state.actorIds, json.Id]
+          });
+        })
+        .catch(error => console.log(error.message));
+        break;
+        
+        case 'remove-value':
+        let arr = opt.map(el => el.value);
+        this.setState({
+          actorIds: arr
+        });
+        break;
+        
+        default: 
+        return;
+      }
     }
 
     render() {
@@ -101,7 +138,7 @@ class Add extends React.Component {
             isMulti
             value={this.state.actor}
             options={options}
-            onChange={el => this.handleInputChange(el)}  // el => console.log(el.label)
+            onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
           />
           </div>
           <button className="left"> Submit </button>
