@@ -6,12 +6,23 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filtered: []
+      filtered: [],
+      foundMovie: ''
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleActorSearch = this.handleActorSearch.bind(this);
+    this.handleTitleSearch = this.handleTitleSearch.bind(this);
   }
-  handleInputChange(opt) {
+  handleTitleSearch(e) {
+    let title = e.label;
+    let found = this.props.moviesArr.find(el => el.Title === title);
+    console.log(found);
+    this.setState({
+      foundMovie: found.Title
+    });
+  }
+
+  handleActorSearch(opt) {
     let name = opt.label;
     let arr = this.props.moviesArr.filter(el => el.Stars.indexOf(name) !== -1);
     this.setState({
@@ -21,17 +32,27 @@ class Search extends React.Component {
     render() {
       let json = this.props.actors;
       let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
+      let opts = this.props.moviesArr.map(el => {return {value: el.Id.toString(), label: el.Title};});
 
       return (
         <div className="box">
-          <p> search by name here soon... </p>
-          <p> Search by actor:</p>
+          <p> Search by movie title: </p>
           <Select
-            name="stars"
+            name="byTitle"
+            isClearable
+            placeholder="start typing"
+            options={opts}
+            onChange={(e) => this.handleTitleSearch(e)}  
+          />
+          <p> {this.state.foundMovie} </p>
+
+          <p> Search by actor: </p>
+          <Select
+            name="byStar"
             isClearable
             placeholder="start typing"
             options={options}
-            onChange={(opt) => this.handleInputChange(opt)}  
+            onChange={(opt) => this.handleActorSearch(opt)}  
           />
           {!this.state.filtered.length 
           ? <p></p> 

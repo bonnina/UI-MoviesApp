@@ -116,7 +116,7 @@ class SPA extends React.Component {
     .then(response => console.log(response.statusText))
     .then(() => {
       this.getMovies();
-      this.setState({  // прибрати, коли виправлю масиви в стейті (прибрати масив із заголовками)
+      this.setState({  
         loading: false,
         movies: [...this.state.movies.slice(0, index), ...this.state.movies.slice(index + 1)]
       });
