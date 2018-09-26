@@ -10,29 +10,31 @@ class Add extends React.Component {
       }
 
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.sanitize = this.sanitize.bind(this);
     }
-  
+    sanitize(string) {  // потім підібрати якийсь пекедж
+      const map = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#x27;',
+          "/": '&#x2F;',
+      };
+      const reg = /[&<>"'/]/ig;
+      return string.replace(reg, (match)=>(map[match]));
+    }
+
     addMovie(e) {
       if (!e.target.checkValidity()) {
         return;
       }
-        function sanitize(string) {  // потім підібрати якийсь пекедж
-          const map = {
-              '&': '&amp;',
-              '<': '&lt;',
-              '>': '&gt;',
-              '"': '&quot;',
-              "'": '&#x27;',
-              "/": '&#x2F;',
-          };
-          const reg = /[&<>"'/]/ig;
-          return string.replace(reg, (match)=>(map[match]));
-        }
+       
       
       let formData = {
-        "title": sanitize(e.target.elements.title.value),
+        "title": this.sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
-        "format": sanitize(e.target.elements.format.value),
+        "format": this.sanitize(e.target.elements.format.value),
         "stars":  this.state.actorIds  // [...Number(this.state.actorId)] 
        };
 
@@ -74,7 +76,7 @@ class Add extends React.Component {
 
         case 'create-option':
         let formData = {
-          "name": opt[0].label,
+          "name": this.sanitize(opt[opt.length -1].label),
         };
         let myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
@@ -136,7 +138,7 @@ class Add extends React.Component {
             name="stars"
             isClearable
             isMulti
-            value={this.state.actor}
+            placeholder="start typing"
             options={options}
             onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
           />

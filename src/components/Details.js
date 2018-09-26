@@ -11,7 +11,7 @@ class Details extends React.Component {
     }
     
     render() {
-      let stars = this.props.details.Stars.map(el => el.StarName).join(', ');
+      let stars = this.props.details.Stars.join(', ');
       return (
         <div className="box">
           <h2> {this.props.details.Title} </h2>

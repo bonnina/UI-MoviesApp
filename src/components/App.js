@@ -52,7 +52,28 @@ class SPA extends React.Component {
     fetch('http://localhost:3000/movies')
       .then(response => response.json())
       .then(json => {
-        this.setState({ movies: json, loading: false });
+        let getStars = function (movie) {
+          return new Promise((resolve, reject) => {
+            let getActor = function(actor) {
+              return new Promise((resolve, reject) => {
+                 if(actor.StarName) {
+                   actor = actor.StarName;
+                 }
+                 resolve(actor);
+              });
+            }
+            let prev = movie.Stars.map(getActor);
+            Promise.all(prev)
+            .then(data => {
+              movie.Stars = data;
+            });
+            resolve(movie);
+            });
+          }
+        
+        let actions = json.map(getStars);
+        Promise.all(actions)
+          .then(data => this.setState({ movies: data, loading: false }));
       }) 
       .catch(error => console.log(error.message));
   }
@@ -111,7 +132,7 @@ class SPA extends React.Component {
             <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
-            <Route exact path="/search" component={Search} />
+            <Route exact path="/search" render={(props) => <Search {...props} actors={this.state.actors} moviesArr={this.state.movies} showDetails={this.movieDetails}/>} />
           </div>
         </BrowserRouter>
       );
