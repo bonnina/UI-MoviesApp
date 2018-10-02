@@ -125,7 +125,7 @@ class SPA extends React.Component {
   }
 
      render() {
-      return (
+       return (
         <BrowserRouter>
           <div>
             <Head />
@@ -133,10 +133,10 @@ class SPA extends React.Component {
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
             <Route exact path="/search" render={(props) => <Search {...props} actors={this.state.actors} moviesArr={this.state.movies} showDetails={this.movieDetails}/>} />
-          </div>
+            </div>
         </BrowserRouter>
       );
-     }
+    }
 }
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
+import FileInput from './FileInput';
 
 
 class Add extends React.Component {
@@ -138,7 +139,7 @@ class Add extends React.Component {
             name="stars"
             isClearable
             isMulti
-            placeholder="start typing"
+            placeholder="Actors: start typing"
             options={options}
             onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
           />
