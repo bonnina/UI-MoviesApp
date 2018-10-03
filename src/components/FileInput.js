@@ -1,15 +1,21 @@
 import React from 'react';
 // https://www.papaparse.com/docs#strings
-
+/*
 class FileInput extends React.Component {
+    constructor(props) {
+        super(props);
+
+    this.handleFileChosen = this.handleFileChosen.bind(this);
+    this.handleFileRead = this.handleFileRead.bind(this);
+    }
   
-    handleFileChosen = (file) => {
+    handleFileChosen(file)  {
         let fileReader = new FileReader();
         fileReader.onloadend = handleFileRead;
         fileReader.readAsText(file);
     };
 
-    handleFileRead = (e) => {
+    handleFileRead(e) {
         const content = fileReader.result;
         console.log(content);
         // do something with the 'content'
@@ -23,7 +29,7 @@ class FileInput extends React.Component {
                id='file'
                className='input-file'
                accept='.txt'
-               onChange={e => handleFileChosen(e.target.files[0])}
+               onChange={e => this.handleFileChosen(e.target.files[0])}
         />
     </div>
     );
@@ -31,3 +37,4 @@ class FileInput extends React.Component {
 }
 
 export default FileInput;
+*/

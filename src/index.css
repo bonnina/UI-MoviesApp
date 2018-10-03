@@ -5,6 +5,11 @@ body  {
   font-family: 'Love Ya Like A Sister', cursive;
 }
 
+h1 {
+  font-size: 4vw;
+  line-height: 0.6;
+}
+
 button {
   font-family: 'Poiret One', cursive;
   font-size: 2vw;
@@ -17,7 +22,8 @@ button {
 }
 
 .left {
-  margin-left: -0.1vw !important;
+  margin-left: 0.1vw !important;
+  margin-top: 1vw;
 }
 
 a {
@@ -39,6 +45,14 @@ li, p {
   background-color: #85adad;
   padding: 2vw;
   min-height: 20vw;
+}
+
+.small-box {
+  margin: 0 1.5vw 1vw 1.5vw;
+  border-radius: 0.7vw;
+  background-color: #85adad;
+  padding: 0.5vw 2vw 1vw 2vw;
+  min-height: 10vw;
 }
 
 nav {
@@ -69,14 +83,14 @@ ul li a:active {
   background-color: #009999;
 }
 
-input {
+.inp {
   margin: 0.3vw;
   font: 1.5vw 'Poiret One', cursive;
-  border-radius: 0.4vw;
+  border-radius: 0.2vw;
   border: none;
   box-shadow: none;
-  height: 1.8vw;
-  width: 20vw;
+  height: 2.2vw;
+  width: 90.3vw;
   padding-left: 0.3vw;
 }
 

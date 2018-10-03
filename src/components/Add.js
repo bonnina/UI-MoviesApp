@@ -124,25 +124,27 @@ class Add extends React.Component {
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
-            <input type="text" id="Title" name="title"  required />
+            <input type="text" className="inp" id="Title" name="title"  required />
           </div>
           <div className="form-group">
             <label htmlFor="Year"> Year </label>
-            <input type="number" id="Year" name="year" required />
+            <input type="number" className="inp" id="Year" name="year" required />
           </div>
           <div className="form-group">
             <label htmlFor="Format"> Format </label>
-            <input type="text" id="Format" name="format" required />
+            <input type="text" className="inp" id="Format" name="format" required />
           </div>
           <div className="form-group">
-          <CreatableSelect
-            name="stars"
-            isClearable
-            isMulti
-            placeholder="Actors: start typing"
-            options={options}
-            onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
-          />
+            <label htmlFor="CS"> Actors </label>
+            <CreatableSelect
+              id="CS"
+              name="stars"
+              isClearable
+              isMulti
+              placeholder="start typing"
+              options={options}
+              onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
+            />
           </div>
           <button className="left"> Submit </button>
         </form>

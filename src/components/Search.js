@@ -35,7 +35,8 @@ class Search extends React.Component {
       let opts = this.props.moviesArr.map(el => {return {value: el.Id.toString(), label: el.Title};});
 
       return (
-        <div className="box">
+      <div>
+        <div className="small-box">
           <p> Search by movie title: </p>
           <Select
             name="byTitle"
@@ -45,7 +46,9 @@ class Search extends React.Component {
             onChange={(e) => this.handleTitleSearch(e)}  
           />
           <p> {this.state.foundMovie} </p>
+        </div>
 
+        <div className="small-box">
           <p> Search by actor: </p>
           <Select
             name="byStar"
@@ -67,6 +70,7 @@ class Search extends React.Component {
           </div>
           }
         </div>
+      </div>
       );
     }
   }
