@@ -146,10 +146,8 @@ class Add extends React.Component {
         </div>
         
         <div className="child-box">
-          <p> Or upload a file </p>
-            <label>
+          <p id="forFile"> Or upload a file </p>
              <FileInput/>
-            </label>
         </div>
       </div>
       );

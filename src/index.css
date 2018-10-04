@@ -112,7 +112,7 @@ ul li a:active {
   border-radius: 0.2vw;
   border: none;
   box-shadow: none;
-  height: 3.5vw;
+  height: 35px;
   width: 41vw;
   padding-left: 0.3vw;
 }
@@ -126,4 +126,8 @@ input[type='file'] {
 label {
   font: 1.5vw 'Poiret One', cursive;
   font-weight: bold;
+}
+
+#forFile {
+   margin-left: 5vw;
 }
