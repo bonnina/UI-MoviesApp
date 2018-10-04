@@ -113,14 +113,9 @@ class Add extends React.Component {
       let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
     
       return (
-        <div className="box">
-          <span>Upload a file</span>
-            <label>
-              <input type="file" placeholder="please, select a file"/>
-            </label>
-
-        <p>or fill in this form</p>
-
+      <div id="parent-box">
+        <div className="child-box">
+        <p> Fill in this form </p>
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
@@ -143,11 +138,19 @@ class Add extends React.Component {
               isMulti
               placeholder="start typing"
               options={options}
-              onChange={(opt, meta) => this.handleInputChange(opt, meta)}  // el => console.log(el.label)
+              onChange={(opt, meta) => this.handleInputChange(opt, meta)} 
             />
           </div>
           <button className="left"> Submit </button>
         </form>
+        </div>
+        
+        <div className="child-box">
+          <p> Or upload a file </p>
+            <label>
+             <FileInput/>
+            </label>
+        </div>
       </div>
       );
     }
