@@ -7,7 +7,7 @@ class Search extends React.Component {
     super(props);
     this.state = {
       filtered: [],
-      foundMovie: ''
+      foundMovie: []
     };
 
     this.handleActorSearch = this.handleActorSearch.bind(this);
@@ -16,9 +16,8 @@ class Search extends React.Component {
   handleTitleSearch(e) {
     let title = e.label;
     let found = this.props.moviesArr.find(el => el.Title === title);
-    console.log(found);
     this.setState({
-      foundMovie: found.Title
+      foundMovie: [found]
     });
   }
 
@@ -45,7 +44,18 @@ class Search extends React.Component {
             options={opts}
             onChange={(e) => this.handleTitleSearch(e)}  
           />
-          <p> {this.state.foundMovie} </p>
+          {!this.state.foundMovie.length 
+          ? <p></p>
+          : <div>
+          <ol>
+          {this.state.foundMovie.map(el => 
+            <li key={el.Id}> {el.Title}
+              <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button> 
+            </li>)
+          }
+          </ol>
+          </div>
+          }
         </div>
 
         <div className="small-box">

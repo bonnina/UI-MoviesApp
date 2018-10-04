@@ -3,7 +3,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import FileInput from './FileInput';
 
 
-class Add extends React.Component {
+export default class Add extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -13,7 +13,7 @@ class Add extends React.Component {
       this.handleInputChange = this.handleInputChange.bind(this);
       this.sanitize = this.sanitize.bind(this);
     }
-    sanitize(string) {  // потім підібрати якийсь пекедж
+    sanitize(string) {  
       const map = {
           '&': '&amp;',
           '<': '&lt;',
@@ -31,7 +31,6 @@ class Add extends React.Component {
         return;
       }
        
-      
       let formData = {
         "title": this.sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
@@ -88,7 +87,6 @@ class Add extends React.Component {
         })
         .then(response => response.json())
         .then(json => {
-          console.log("Received actor Id: " + json.Id);
           this.setState({
             actorIds: [...this.state.actorIds, json.Id]
           });
@@ -147,11 +145,10 @@ class Add extends React.Component {
         
         <div className="child-box">
           <p id="forFile"> Or upload a file </p>
-             <FileInput/>
+             <FileInput stars={this.props.actors}/>
         </div>
       </div>
       );
     }
   }
 
-  export default Add;

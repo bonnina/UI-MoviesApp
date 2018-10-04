@@ -1,19 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister|Poiret+One');
 
+/*
+media only screen and (max-width: 400px) {
+  .child-box {
+    width: 90%;
+  }
+  .inp {
+    width: 90vw;
+  }
+  li, p {
+    font-size: 20px;
+  }
+}
+*/
+
 body  {
   background-color: #ffecb3;
   font-family: 'Love Ya Like A Sister', cursive;
 }
 
 h1 {
-  font-size: 4vw;
+  font-size: 50px;
   line-height: 0.6;
   margin: 2vw 1.5vw 1vw 1.5vw;
 }
 
 button {
   font-family: 'Poiret One', cursive;
-  font-size: 2vw;
+  font-size: 25px;
   color: #006666;
   font-weight: bold;
   margin: 0.4vw 0 0.4vw 2vw;
@@ -33,7 +47,7 @@ a {
 }
 
 li, p {
-  font-size: 2.4vw;
+  font-size: 28px;
 }
 
 .box {
@@ -66,17 +80,6 @@ li, p {
   border-radius: 0.7vw;
   background-color: #ffd24d;
 }
-
-/*
-media screen and (max-width: 400px) {
-  .child-box {
-    width: 90%;
-  }
-  .inp {
-    width: 90vw;
-  }
-}
-*/
 
 nav {
   border-radius: 0.7vw;
@@ -124,10 +127,14 @@ input[type='file'] {
 }
 
 label {
-  font: 1.5vw 'Poiret One', cursive;
+  font: 15px 'Poiret One', cursive;
   font-weight: bold;
 }
 
 #forFile {
    margin-left: 5vw;
+}
+
+ol li {
+  font-size: 30px;
 }
