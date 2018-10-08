@@ -32,6 +32,8 @@ class Search extends React.Component {
       let json = this.props.actors;
       let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
       let opts = this.props.moviesArr.map(el => {return {value: el.Id.toString(), label: el.Title};});
+      let count1 = 1;
+      let count2 = 1;
 
       return (
       <div>
@@ -47,17 +49,30 @@ class Search extends React.Component {
           {!this.state.foundMovie.length 
           ? <p></p>
           : <div>
-          <ol>
-          {this.state.foundMovie.map(el => 
-            <li key={el.Id}> {el.Title}
-              <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button> 
-            </li>)
-          }
-          </ol>
+            <table>
+            <tbody>    
+              {this.state.foundMovie.map(el => 
+                  <tr key={el.Id}> 
+                    <td className="count">
+                      {count1++}
+                    </td>
+                    <td> 
+                      {el.Title} 
+                    </td> 
+                    <td>        
+                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                    </td>
+                    <td>
+                      <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
+                    </td>
+                  </tr>)
+              }
+             </tbody>
+            </table> 
           </div>
           }
         </div>
-
+        
         <div className="small-box">
           <p> Search by actor: </p>
           <Select
@@ -70,13 +85,26 @@ class Search extends React.Component {
           {!this.state.filtered.length 
           ? <p></p> 
           : <div>
-            <ol>
-            {this.state.filtered.map(el => 
-                <li key={el.Id}> {el.Title}
-                <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button> 
-                </li>)
-            }
-            </ol>
+            <table id="table">
+             <tbody>    
+              {this.state.filtered.map(el => 
+                  <tr key={el.Id}> 
+                    <td className="count">
+                      {count2++}
+                    </td>
+                    <td> 
+                      {el.Title} 
+                    </td> 
+                    <td>        
+                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                    </td>
+                    <td>
+                      <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
+                    </td>
+                  </tr>)
+              }
+             </tbody>
+            </table> 
           </div>
           }
         </div>

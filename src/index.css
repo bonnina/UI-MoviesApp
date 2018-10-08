@@ -21,14 +21,15 @@ body  {
 
 h1 {
   font-size: 50px;
-  line-height: 0.6;
-  margin: 2vw 1.5vw 1vw 1.5vw;
+  line-height: 0.7;
+  margin: 3vw 1.5vw 1vw 1.5vw;
 }
 
 button {
   font-family: 'Poiret One', cursive;
-  font-size: 25px;
+  font-size: 2.3vw;
   color: #006666;
+  background-color: #ffdf80;
   font-weight: bold;
   margin: 0.4vw 0 0.4vw 2vw;
   border-radius: 0.5vw;
@@ -46,7 +47,7 @@ a {
   color: gray;
 }
 
-li, p {
+p {
   font-size: 28px;
 }
 
@@ -85,7 +86,6 @@ nav {
   border-radius: 0.7vw;
   background-color: #006666;
   margin: 0 1.5vw 0 1.5vw;
-  font-size: 3vw;
 }
 
 .act {
@@ -102,7 +102,9 @@ ul li a {
   color: #ffd9b3;
   font-weight: bold;
   display: inline-block;
-  padding: 2vw;
+  margin-left: -3vw;
+  padding: 3vw;
+  font-size: 3vw;
 }
 
 ul li a:active {
@@ -136,5 +138,13 @@ label {
 }
 
 ol li {
-  font-size: 30px;
+  font-size: 2vw;
+}
+
+td {
+  font-size: 2.5vw;
+}
+
+.count {
+  color: #006666;
 }

@@ -2,13 +2,6 @@ import React from 'react';
 import ReactDropzone from "react-dropzone";
 
 export default class FileInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        actorIds: []
-    }
-  }
-
     onDrop = (files) => {
       let fileReader;
       const handleFileRead = (e) => {
