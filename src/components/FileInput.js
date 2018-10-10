@@ -54,7 +54,6 @@ export default class FileInput extends React.Component {
                   else {
             console.log("Match: " + el);
                     resolve({Id: resp[0].Id});
-                    return;
                   }
                 })
                 .catch(error => console.log(error.message));
