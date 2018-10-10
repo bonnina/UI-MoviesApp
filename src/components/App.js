@@ -100,7 +100,6 @@ class SPA extends React.Component {
     let film = this.state.movies.find(el => el === elem);
     let id = film.Id;
     let index = this.state.movies.indexOf(elem);
-    console.log("index: " + index);
     this.setState({
       loading: true
     });

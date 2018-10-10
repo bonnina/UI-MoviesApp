@@ -6,69 +6,102 @@ export default class FileInput extends React.Component {
       let fileReader;
       const handleFileRead = (e) => {
         const str = fileReader.result;
-      //  console.log(str);
         let arr = str.split('\n').map(el => el.split(': ')).filter((el, ind) => (ind + 1) % 5 !== 0);
        
-       while(arr.length > 0) {
+        // loop through the file contents
+        while(arr.length > 0) {
+          // splice the first movie
           let movie = arr.splice(0, 4);
-          let stars = movie[3][1].split(', ');
-          console.log('Stars: ' + stars);
-          let propStars = this.props.stars;
-          
-          var postActor = function (el) { 
-            return new Promise((resolve, reject) => {
-              let goOn = true;
-                propStars.forEach(x => {
-                    if (x.Name.toLowerCase() === el.toLowerCase()) {
-                      console.log("Match: " + x.Name);
-                      goOn = false;
-                      resolve({Id: x.Id});
-                    }
-                });
-              if (goOn) {
-                let actor = {"name": el};
+          let dataToPost = {
+            "title": movie[0][1],
+            "year": movie[1][1],
+            "format": movie[2][1]
+           };
+
+          // creates or updates a movie 
+          function updOrCreate(m) {
+            let stars = movie[3][1].split(', ');
+            var postActor = function (el) { 
+              return new Promise((resolve, reject) => {
+                // check if this actor already exists in a DB
                 let myHeaders = new Headers();
                 myHeaders.append('Content-Type', 'application/json');
-    
-                fetch('http://localhost:3000/stars', {
-                  method: 'POST',
-                  headers: myHeaders,
-                  body: JSON.stringify(actor)
-                })
+                let url = `http://localhost:3000/stars/${el}`;
+                fetch(url)
                 .then(response => response.json())
-                .then(json => {
-                  console.log('Created actor: ');
-                  console.log(json);
-                  resolve(json);
+                .then(resp => {
+            console.log(resp[0]);
+                  
+                  // if there's no such actor in the DB, add one
+                  if (resp[0] === undefined) {
+            console.log("No such actor");
+                  let actor = {"name": el};
+                  let myHeaders = new Headers();
+                  myHeaders.append('Content-Type', 'application/json');
+      
+                  fetch('http://localhost:3000/stars', {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: JSON.stringify(actor)
+                  })
+                  .then(response => response.json())
+                  .then(json => {
+            console.log('Created actor: ', json);
+                    resolve(json);
+                  })
+                  .catch(error => console.log(error.message, "In create actor"));
+                  }
+                  else {
+            console.log("Match: " + el);
+                    resolve({Id: resp[0].Id});
+                    return;
+                  }
                 })
                 .catch(error => console.log(error.message));
-              }
-            });
-          };
-      
-          let actions = stars.map(postActor);
-          Promise.all(actions)
-            .then(data => {
-              let idArr = data.map(el => el.Id);
-              let toPost = {
-                "title": movie[0][1],
-                "year": movie[1][1],
-                "format": movie[2][1],
-                "stars": idArr
-               };
-              let myHeaders = new Headers();
-              myHeaders.append('Content-Type', 'application/json');
-        
-              fetch('http://localhost:3000/movies', {
-                method: 'POST',
-                headers: myHeaders,
-                body: JSON.stringify(toPost)
+              }); // end Promise
+            };  // end func
+
+            let actions = stars.map(postActor);
+            Promise.all(actions)
+              .then(data => {
+                let idArr = data.map(el => el.Id);
+                dataToPost.stars = idArr;
+                let myHeaders = new Headers();
+                myHeaders.append('Content-Type', 'application/json');
+          
+                fetch('http://localhost:3000/movies', {
+                  method: m,
+                  headers: myHeaders,
+                  body: JSON.stringify(dataToPost)
+                })
+                .then(response => response.json())
+                .then(j => console.log('Movie Id: ' + j.movieId))
+                .catch(error => console.log(error.message));
               })
-              .then(response => response.json())
-              .then(j => console.log('Movie Id: ' + j.movieId))
               .catch(error => console.log(error.message));
-            })
-            .catch(error => console.log(error.message));
+
+            //  this.props.getMov();
+          }
+
+          // first, check if the movie already exists in DB
+          let title = movie[0][1];
+          let myHeaders = new Headers();
+          myHeaders.append('Content-Type', 'application/json');
+          let url = `http://localhost:3000/movies/${title}`;
+          fetch(url)
+          .then(response => response.json())
+          .then(resp => {
+            // if there's no such movie in DB, create one
+            if (resp[0] === undefined) {
+              updOrCreate('POST');
+            }
+            // if there is one, update movie details
+            else {
+              dataToPost.id = resp[0].Id;
+              updOrCreate('PUT');
+            }
+          })
+          .catch(error => console.log(error.message));
         }
       };
   
