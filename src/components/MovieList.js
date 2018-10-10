@@ -28,7 +28,7 @@ class MovieList extends React.Component {
                     <td>
                       <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
                     </td>
-                  </tr>)
+                  </tr>) 
               }
              </tbody>
             </table> 
@@ -40,7 +40,7 @@ class MovieList extends React.Component {
 export default MovieList;
 
 /*
-<ol>
+              <ol>
                 {this.props.moviesArr.map(el => 
                   <li key={el.Id}> {el.Title}             
                     <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>

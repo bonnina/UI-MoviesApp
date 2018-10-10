@@ -30,34 +30,51 @@ export default class Add extends React.Component {
       if (!e.target.checkValidity()) {
         return;
       }
-       
+      
       let formData = {
         "title": this.sanitize(e.target.elements.title.value),
         "year": e.target.elements.year.value,
         "format": this.sanitize(e.target.elements.format.value),
-        "stars":  this.state.actorIds  // [...Number(this.state.actorId)] 
+        "stars":  this.state.actorIds  
        };
-
+      
+      function createOrUpdate(m) {
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+  
+        fetch('http://localhost:3000/movies', {
+          method: m,
+          headers: myHeaders,
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(j => console.log(j.movieId))
+        .catch(error => console.log(error.message));
+  
+        this.props.getMovies(); 
+      }
+      
+      let title = e.target.elements.title.value;
       let myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
-
-      fetch('http://localhost:3000/movies', {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(formData)
-      })
+      let url = `http://localhost:3000/movies/${title}`;
+      
+      // check if the movie already exists
+      fetch(url)
       .then(response => response.json())
-      .then(j => console.log(j.movieId))
-      .catch(error => {
-        if (error.response) {
-          console.log('Code: ' + error.response.data.error.code + 
-                '\r\nMessage: ' + error.response.data.error.message);
-        } else {
-          console.log('Failed to add movie');
+      .then(resp => {
+        // if no, create one
+        if (resp[0] === undefined) {
+          createOrUpdate('POST');
         }
-      });  
-
-     this.props.getMovies(); 
+        // if it does, update movie details
+        else {
+          console.log('will update');
+          formData.id = resp[0].Id;
+          createOrUpdate('PUT');
+        }
+      })
+      .catch(error => console.log(error.message));
     }
     
     handleInputChange(opt, meta) {

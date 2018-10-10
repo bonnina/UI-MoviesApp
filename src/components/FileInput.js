@@ -6,18 +6,19 @@ export default class FileInput extends React.Component {
       let fileReader;
       const handleFileRead = (e) => {
         const str = fileReader.result;
+      //  console.log(str);
         let arr = str.split('\n').map(el => el.split(': ')).filter((el, ind) => (ind + 1) % 5 !== 0);
        
        while(arr.length > 0) {
           let movie = arr.splice(0, 4);
           let stars = movie[3][1].split(', ');
           console.log('Stars: ' + stars);
-          let pr = this.props.stars;
+          let propStars = this.props.stars;
           
           var postActor = function (el) { 
             return new Promise((resolve, reject) => {
               let goOn = true;
-                pr.forEach(x => {
+                propStars.forEach(x => {
                     if (x.Name.toLowerCase() === el.toLowerCase()) {
                       console.log("Match: " + x.Name);
                       goOn = false;
@@ -36,6 +37,7 @@ export default class FileInput extends React.Component {
                 })
                 .then(response => response.json())
                 .then(json => {
+                  console.log('Created actor: ');
                   console.log(json);
                   resolve(json);
                 })
@@ -73,7 +75,7 @@ export default class FileInput extends React.Component {
           fileReader = new FileReader();
           fileReader.onloadend = handleFileRead;
           fileReader.readAsText(files[0]);
-    }
+    } 
 
   render() {
     const s = {
