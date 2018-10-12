@@ -85,12 +85,10 @@ class SPA extends React.Component {
         this.setState({actors: json});
         return json;
       }) 
-     // .then(json => {console.log(this.state.actors[0].Name);})
       .catch(error => console.log(error.message));
   }
 
   movieDetails(elem) {  
-   // console.log(elem);
     this.setState({
       details: this.state.movies.find(el => el.Id === elem.Id)
     });

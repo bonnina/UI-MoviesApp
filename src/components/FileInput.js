@@ -3,6 +3,7 @@ import ReactDropzone from 'react-dropzone';
 import DropzoneErrorBoundary from './DropzoneErrorBoundary';
 
 export default class FileInput extends React.Component {
+  /*
     onDrop = (files) => {
       let fileReader;
       const handleFileRead = (e) => {
@@ -109,6 +110,22 @@ export default class FileInput extends React.Component {
           fileReader.onloadend = handleFileRead;
           fileReader.readAsText(files[0]);
     } 
+  */
+    onDrop = (files) => {
+      let file = files[0];
+      
+      if (file) {
+        let data = new FormData();
+        data.append('file', file);
+        
+        fetch('http://localhost:3000/upload', {
+          method: 'POST',
+          body: data
+        })
+        .then(response => response.json())
+        .catch(error => console.log(error.message));
+      }
+    }
 
   render() {
     const s = {
@@ -125,6 +142,7 @@ export default class FileInput extends React.Component {
     <DropzoneErrorBoundary>
       <ReactDropzone
         id="dropzone"
+        name="movies"
         style={s}
         onDrop={this.onDrop}
         accept='.txt'
