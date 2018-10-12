@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
+import ErrorBoundary from './ErrorBoundary';
 
 class Search extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Search extends React.Component {
 
       return (
       <div>
+      <ErrorBoundary>
         <div className="small-box">
           <p> Search by movie title: </p>
           <Select
@@ -72,7 +74,9 @@ class Search extends React.Component {
           </div>
           }
         </div>
-        
+      </ErrorBoundary>
+      
+      <ErrorBoundary>
         <div className="small-box">
           <p> Search by actor: </p>
           <Select
@@ -108,6 +112,7 @@ class Search extends React.Component {
           </div>
           }
         </div>
+      </ErrorBoundary>
       </div>
       );
     }

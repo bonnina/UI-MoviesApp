@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister|Poiret+One');
-
 /*
-media only screen and (max-width: 400px) {
+media (max-width: 400px) {
   .child-box {
     width: 90%;
   }

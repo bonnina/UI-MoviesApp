@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDropzone from "react-dropzone";
+import ReactDropzone from 'react-dropzone';
+import DropzoneErrorBoundary from './DropzoneErrorBoundary';
 
 export default class FileInput extends React.Component {
     onDrop = (files) => {
@@ -121,13 +122,7 @@ export default class FileInput extends React.Component {
     };
     return (
     <div>
-     {/*
-      <input type='file'
-        id='file'
-        accept='.txt'
-        onChange={e => this.handleFile(e.target.files[0])}
-      />
-     */}
+    <DropzoneErrorBoundary>
       <ReactDropzone
         id="dropzone"
         style={s}
@@ -135,6 +130,7 @@ export default class FileInput extends React.Component {
         accept='.txt'
       > 
       </ReactDropzone>
+    </DropzoneErrorBoundary>
     </div>
     );
   }

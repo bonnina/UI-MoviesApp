@@ -1,6 +1,7 @@
 import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
 import FileInput from './FileInput';
+import ErrorBoundary from './ErrorBoundary';
 
 
 export default class Add extends React.Component {
@@ -131,6 +132,7 @@ export default class Add extends React.Component {
       <div id="parent-box">
         <div className="child-box">
         <p> Fill in this form </p>
+        <ErrorBoundary>
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
@@ -158,6 +160,7 @@ export default class Add extends React.Component {
           </div>
           <button className="left"> Submit </button>
         </form>
+        </ErrorBoundary>
         </div>
         
         <div className="child-box">
