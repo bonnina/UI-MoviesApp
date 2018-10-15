@@ -132,7 +132,7 @@ export default class FileInput extends React.Component {
       width: '31vw', 
       height: '25vw',
       borderWidth: '2px',
-      borderColor: 'rgb(102, 102, 102)',
+      borderColor: '#33334d',
       borderStyle: 'dashed',
       borderRadius: '5px',
       marginLeft: '5vw'

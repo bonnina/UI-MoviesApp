@@ -14,21 +14,22 @@ media (max-width: 400px) {
 */
 
 body  {
-  background-color: #ffecb3;
+  background-color: #29293d;
   font-family: 'Love Ya Like A Sister', cursive;
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 60px;
   line-height: 0.7;
   margin: 3vw 1.5vw 1vw 1.5vw;
+  color: #7575a3;
 }
 
 button {
   font-family: 'Poiret One', cursive;
   font-size: 2.3vw;
-  color: #006666;
-  background-color: #ffdf80;
+  color: #29293d;
+  background-color: #a3a3c2;
   font-weight: bold;
   margin: 0.4vw 0 0.4vw 2vw;
   border-radius: 0.5vw;
@@ -39,21 +40,23 @@ button {
 .left {
   margin-left: 0.1vw !important;
   margin-top: 1vw;
+  color: white;
 }
 
 a {
   text-decoration: none;
-  color: gray;
+  color: white;
 }
 
 p {
   font-size: 28px;
+  color: #29293d;
 }
 
 .box {
   margin: 0 1.5vw 0 1.5vw;
   border-radius: 0.7vw;
-  background-color: #ffd24d;
+  background-color: #a3a3c2;
   padding: 2vw;
   min-height: 20vw;
 }
@@ -61,7 +64,7 @@ p {
 .small-box {
   margin: 2vw 1.5vw 2vw 1.5vw;
   border-radius: 0.7vw;
-  background-color: #ffd24d;
+  background-color: #a3a3c2;
   padding: 0.5vw 2vw 1vw 2vw;
   min-height: 10vw;
 }
@@ -78,17 +81,17 @@ p {
   margin: 0 1vw 0 1vw; 
   padding: 2vw;
   border-radius: 0.7vw;
-  background-color: #ffd24d;
+  background-color: #a3a3c2;
 }
 
 nav {
   border-radius: 0.7vw;
-  background-color: #006666;
+  background-color: #7575a3;
   margin: 0 1.5vw 0 1.5vw;
 }
 
 .act {
-  background-color: #009999;
+  color: white;
 }
 
 ul li {
@@ -98,7 +101,7 @@ ul li {
 
 ul li a {
   text-decoration: none;
-  color: #ffd9b3;
+  color: #29293d;
   font-weight: bold;
   display: inline-block;
   margin-left: -3vw;
@@ -107,7 +110,7 @@ ul li a {
 }
 
 ul li a:active {
-  background-color: #009999;
+  color: white;
 }
 
 .inp {
@@ -142,8 +145,9 @@ ol li {
 
 td {
   font-size: 2.5vw;
+  color: #29293d;
 }
 
 .count {
-  color: #006666;
+  color: #5c5c8a;
 }
