@@ -25,6 +25,11 @@ h1 {
   color: #7575a3;
 }
 
+h2 {
+  font-size: 30px;
+  color: #52527a;
+}
+
 button {
   font-family: 'Poiret One', cursive;
   font-size: 2.3vw;
@@ -51,6 +56,10 @@ a {
 p {
   font-size: 28px;
   color: #29293d;
+}
+
+span {
+  color: #47476b;
 }
 
 .box {
@@ -88,6 +97,7 @@ nav {
   border-radius: 0.7vw;
   background-color: #7575a3;
   margin: 0 1.5vw 0 1.5vw;
+  line-height: 0.6;
 }
 
 .act {
@@ -125,7 +135,7 @@ ul li a:active {
 }
 
 input[type='file'] {
-  color: #006666;
+  color: #29293d;
   margin-left: 1vw;
   font-weight: bold;
 }

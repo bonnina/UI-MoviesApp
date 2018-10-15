@@ -14,9 +14,9 @@ class Details extends React.Component {
       return (
         <div className="box">
           <h2> {this.props.details.Title} </h2>
-          <p className=""> Release year: {this.props.details.Year} </p>
-          <p className=""> Format: {this.props.details.Format} </p>
-          <p className=""> Stars: {stars} </p>
+          <p className=""> Release year: <span> {this.props.details.Year} </span></p>
+          <p className=""> Format: <span> {this.props.details.Format} </span></p>
+          <p className=""> Stars: <span> {stars} </span></p>
           <button type="button" className="left"><Link to="/"> Back to movies </Link></button>
         </div>
       );
