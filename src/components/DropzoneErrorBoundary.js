@@ -1,4 +1,5 @@
 import React from 'react';
+import BACKEND_URL from './backendURL';
 
 export default class DropzoneErrorBoundary extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ export default class DropzoneErrorBoundary extends React.Component {
         let data = new FormData();
         data.append('file', file);
         
-        fetch('http://localhost:3000/upload', {
+        fetch(`${BACKEND_URL}/upload`, {
           method: 'POST',
           body: data
         })

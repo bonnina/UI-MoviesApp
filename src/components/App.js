@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-//import { Creatable } from 'react-select';
-//import 'react-select/dist/react-select.css';
 
 import Head from './Head';
 import MovieList from './MovieList';
 import Details from './Details';
 import Add from './Add';
 import Search from './Search';
+import BACKEND_URL from './backendURL';
 
 class SPA extends React.Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class SPA extends React.Component {
       Title: '',
       Year: '',
       Format: '',
-      Stars: '' // поки строкою, потім в масив
+      Stars: '' 
     };
 
     this.state = {
@@ -49,7 +48,7 @@ class SPA extends React.Component {
       loading: true 
     });
     
-    fetch('http://localhost:3000/movies')
+    fetch(`${BACKEND_URL}/movies`)
       .then(response => response.json())
       .then(json => {
         let getStars = function (movie) {
@@ -79,7 +78,7 @@ class SPA extends React.Component {
   }
 
   getActors() {
-    fetch('http://localhost:3000/stars')
+    fetch(`${BACKEND_URL}/stars`)
       .then(response => response.json())
       .then(json => {
         this.setState({actors: json});
@@ -104,7 +103,7 @@ class SPA extends React.Component {
 
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    let url = `http://localhost:3000/movies/${id}`;
+    let url = `${BACKEND_URL}/movies/${id}`;
 
     fetch(url, {
       method: 'DELETE',

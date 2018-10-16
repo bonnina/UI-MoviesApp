@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDropzone from 'react-dropzone';
 import DropzoneErrorBoundary from './DropzoneErrorBoundary';
+import BACKEND_URL from './backendURL';
 
 export default class FileInput extends React.Component {
   /*
@@ -118,7 +119,7 @@ export default class FileInput extends React.Component {
         let data = new FormData();
         data.append('file', file);
         
-        fetch('http://localhost:3000/upload', {
+        fetch(`${BACKEND_URL}/upload`, {
           method: 'POST',
           body: data
         })

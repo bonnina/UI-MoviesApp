@@ -2,7 +2,7 @@ import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
 import FileInput from './FileInput';
 import ErrorBoundary from './ErrorBoundary';
-
+import BACKEND_URL from './backendURL';
 
 export default class Add extends React.Component {
     constructor(props) {
@@ -43,7 +43,7 @@ export default class Add extends React.Component {
         let myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
   
-        fetch('http://localhost:3000/movies', {
+        fetch(`${BACKEND_URL}/movies`, {
           method: m,
           headers: myHeaders,
           body: JSON.stringify(formData)
@@ -98,7 +98,7 @@ export default class Add extends React.Component {
         };
         let myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-        fetch('http://localhost:3000/stars', {
+        fetch(`${BACKEND_URL}/stars`, {
           method: 'POST',
           headers: myHeaders,
           body: JSON.stringify(formData)
