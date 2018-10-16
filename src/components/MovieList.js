@@ -1,15 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import Loader from 'react-loader-spinner';
+// <div className="box"><p> Loading movies... </p></div> 
 
 class MovieList extends React.Component {
     render() {
       let count = 1;
-       return ( /* (loading) 
-        ? <div className="box">Loading movies...</div> 
-        : 
-      */ 
-          (!this.props.moviesArr.length) 
+       return (  
+        (this.props.loading) 
+        ? <div className="box spinner">
+          <Loader 
+            type="Plane"
+            color="#29293d"
+            height="90"	
+            width="90"
+          />  
+          </div>
+        : (!this.props.moviesArr.length) 
           ? <div className="box"><p>No movies yet.. <Link to="/add"> Add movies? </Link></p></div>  
           : <div className="box">
             <table id="table">

@@ -125,7 +125,7 @@ class SPA extends React.Component {
         <BrowserRouter>
           <div>
             <Head />
-            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} showDetails={this.movieDetails} del={this.deleteMovie}/>} />
+            <Route exact path="/" render={(props) => <MovieList {...props} moviesArr={this.state.movies} showDetails={this.movieDetails} del={this.deleteMovie} loading={this.state.loading}/>} />
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
             <Route exact path="/search" render={(props) => <Search {...props} actors={this.state.actors} moviesArr={this.state.movies} showDetails={this.movieDetails}/>} />

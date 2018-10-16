@@ -52,6 +52,12 @@ button:active {
   color: white;
 }
 
+.spinner {
+  text-align: center;
+  padding-top: 4vw !important;
+  min-height: 20vw;
+}
+
 a {
   text-decoration: none;
   color: white;
