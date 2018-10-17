@@ -49,10 +49,11 @@ export default class Add extends React.Component {
           body: JSON.stringify(formData)
         })
         .then(response => response.json())
-        .then(j => console.log(j.movieId))
+        .then(j => {
+          console.log(j.movieId);
+          this.props.getMovies(); 
+        })
         .catch(error => console.log(error.message));
-  
-        this.props.getMovies(); 
       }
       
       let title = e.target.elements.title.value;

@@ -6,7 +6,9 @@ import MovieList from './MovieList';
 import Details from './Details';
 import Add from './Add';
 import Search from './Search';
+import Clear from './ClearAll';
 import BACKEND_URL from './backendURL';
+import FileInput from './FileInput';
 
 class SPA extends React.Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class SPA extends React.Component {
     this.getActors = this.getActors.bind(this);
     this.movieDetails = this.movieDetails.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
+    this.clearEverything = this.clearEverything.bind(this);
   }
   
   componentWillMount() {
@@ -96,7 +99,6 @@ class SPA extends React.Component {
   deleteMovie(elem) {
     let film = this.state.movies.find(el => el === elem);
     let id = film.Id;
-    let index = this.state.movies.indexOf(elem);
     this.setState({
       loading: true
     });
@@ -110,15 +112,34 @@ class SPA extends React.Component {
       headers: myHeaders
     })
     .then(response => console.log(response.statusText))
-    .then(() => {
-      this.getMovies();
-      this.setState({  
-        loading: false,
-        movies: [...this.state.movies.slice(0, index), ...this.state.movies.slice(index + 1)]
-      });
-    })
+    .then(() => this.getMovies())
     .catch(error => console.log(error.message));
   }
+
+  clearEverything() {
+    let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    let url = `${BACKEND_URL}/movies`;
+    this.setState({  
+      loading: true,
+    });
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: myHeaders
+    })
+    .then(response => {
+      console.log(response.statusText);
+      this.setState({  
+        loading: false,
+        movies: []
+      });
+      
+    })
+    .catch(error => console.log(error.message));
+    this.getMovies();
+    document.querySelector('#home').click();  // temporary
+   }
 
      render() {
        return (
@@ -129,6 +150,8 @@ class SPA extends React.Component {
             <Route exact path="/details" render={(props) => <Details {...props} details={this.state.details}/>} />
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
             <Route exact path="/search" render={(props) => <Search {...props} actors={this.state.actors} moviesArr={this.state.movies} showDetails={this.movieDetails}/>} />
+            <Route exact path="/clear" render={(props) => <Clear {...props} clear={this.clearEverything} />} />
+            <Route exact path="/fileInput" render={(props) => <FileInput {...props} getMovies={this.getMovies} />} />
             </div>
         </BrowserRouter>
       );

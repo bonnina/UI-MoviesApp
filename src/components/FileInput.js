@@ -4,6 +4,9 @@ import DropzoneErrorBoundary from './DropzoneErrorBoundary';
 import BACKEND_URL from './backendURL';
 
 export default class FileInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   /*
     onDrop = (files) => {
       let fileReader;
@@ -118,13 +121,24 @@ export default class FileInput extends React.Component {
       if (file) {
         let data = new FormData();
         data.append('file', file);
-        
+        this.setState({  
+          loading: true,
+        });
+
         fetch(`${BACKEND_URL}/upload`, {
           method: 'POST',
           body: data
         })
         .then(response => response.json())
-        .catch(error => console.log(error.message));
+        .then(json => {
+          console.log(json);
+          document.querySelector('#home').click();  // temporary
+        })
+        .catch(error => {
+          console.log(error.message);
+          document.querySelector('#home').click();  // temporary
+        });
+       // this.props.getMovies();  doesn't work
       }
     }
 
