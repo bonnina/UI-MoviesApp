@@ -10,7 +10,7 @@ class MovieList extends React.Component {
         (this.props.loading) 
         ? <div className="box spinner">
           <Loader 
-            type="Plane"
+            type="ThreeDots"
             color="#29293d"
             height="90"	
             width="90"

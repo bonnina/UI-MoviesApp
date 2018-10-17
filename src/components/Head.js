@@ -11,9 +11,9 @@ class Head extends React.Component {
             </h1>
             <nav>
               <ul>
-                <li><Link id="home" to="/"> My movies </Link></li>
-                <li><Link to="/add"> Add </Link></li>
-                <li><Link to="/search"> Search </Link></li>
+                <li><Link id="home" to="/"> my movies </Link></li>
+                <li><Link to="/add"> add </Link></li>
+                <li><Link to="/search"> search </Link></li>
               </ul>
             </nav>
           </header>

@@ -54,7 +54,7 @@ button:active {
 
 .spinner {
   text-align: center;
-  padding-top: 4vw !important;
+  padding-top: 6vw !important;
   min-height: 20vw;
 }
 
@@ -124,7 +124,7 @@ ul li a {
   color: #29293d;
   font-weight: bold;
   display: inline-block;
-  margin-left: -3vw;
+  margin-left: -4vw;
   padding: 3vw;
   font-size: 3vw;
 }
