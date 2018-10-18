@@ -165,7 +165,6 @@ export default class Add extends React.Component {
         </div>
         
         <div className="child-box">
-          <p id="forFile"> Or upload a file </p>
              <FileInput />
         </div>
       </div>
