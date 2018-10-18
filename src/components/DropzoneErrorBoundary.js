@@ -41,6 +41,7 @@ export default class DropzoneErrorBoundary extends React.Component {
           body: data
         })
         .then(response => response.json())
+        .then(json => console.log(json))
         .catch(error => console.log(error.message));
       }
     }

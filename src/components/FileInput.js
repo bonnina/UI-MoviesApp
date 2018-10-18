@@ -4,9 +4,6 @@ import DropzoneErrorBoundary from './DropzoneErrorBoundary';
 import BACKEND_URL from './backendURL';
 
 export default class FileInput extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   /*
     onDrop = (files) => {
       let fileReader;
@@ -132,13 +129,11 @@ export default class FileInput extends React.Component {
         .then(response => response.json())
         .then(json => {
           console.log(json);
-          document.querySelector('#home').click();  // temporary
         })
         .catch(error => {
           console.log(error.message);
-          document.querySelector('#home').click();  // temporary
         });
-       // this.props.getMovies();  doesn't work
+       // this.props.getMovies();  - doesn't work
       }
     }
 
