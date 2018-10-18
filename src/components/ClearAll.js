@@ -5,9 +5,9 @@ export default class Clear extends React.Component {
     render() {
         return (
             <div className="box clear-box">
-                <p> Clear everything? </p>
-                <button type="button" id="clear" onClick={() => this.props.clear()}> OK </button>
-                <button type="button" className="left"><Link to="/"> Cancel </Link></button>
+                <p id="clear"> Clear everything? </p>
+                <button type="button" className="clear" onClick={() => this.props.clear()}> OK </button>
+                <button type="button" className="clear"><Link to="/"> Cancel </Link></button>
             </div>
         );
     }

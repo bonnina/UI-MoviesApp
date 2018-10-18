@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDropzone from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 import DropzoneErrorBoundary from './DropzoneErrorBoundary';
 import BACKEND_URL from './backendURL';
 
@@ -150,14 +150,14 @@ export default class FileInput extends React.Component {
     return (
     <div>
     <DropzoneErrorBoundary>
-      <ReactDropzone
+      <Dropzone
         id="dropzone"
         name="movies"
         style={s}
         onDrop={this.onDrop}
         accept='.txt'
       > 
-      </ReactDropzone>
+      </Dropzone>
     </DropzoneErrorBoundary>
     </div>
     );

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+library.add( faTrashAlt, faInfoCircle );
 // <div className="box"><p> Loading movies... </p></div> 
 
 class MovieList extends React.Component {
@@ -30,10 +34,10 @@ class MovieList extends React.Component {
                       {el.Title} 
                     </td> 
                     <td>        
-                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                      <button type="button" id="menu" onClick={() => this.props.showDetails(el)}><Link to="/details"> details </Link></button>
                     </td>
                     <td>
-                      <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
+                      <button type="button" className="d" onClick={() => this.props.del(el)}> <FontAwesomeIcon className="fa-del clear" icon="trash-alt" /> </button>
                     </td>
                   </tr>) 
               }
@@ -45,6 +49,8 @@ class MovieList extends React.Component {
   }
 
 export default MovieList;
+
+// <FontAwesomeIcon className="fa-del" icon="info-circle" />  
 
 /*
               <ol>

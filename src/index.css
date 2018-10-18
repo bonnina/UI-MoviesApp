@@ -15,7 +15,7 @@ media (max-width: 400px) {
 */
 
 body  {
-  background-color: #29293d;
+  background-color: #1f1f2e;
   font-family: 'Love Ya Like A Sister', cursive;
 }
 
@@ -45,6 +45,7 @@ button {
 
 button:active {
   outline-color: white;
+  color: white !important;
 }
 
 .left {
@@ -53,26 +54,44 @@ button:active {
   color: white;
 }
 
-#clear {
-  color: white;
-  margin-left: -1vw !important;
-  margin-right: 3vw;
-}
-
 .spinner {
   text-align: center;
   padding-top: 6vw !important;
   min-height: 20vw;
 }
-
+/*
 a {
   text-decoration: none;
   color: white;
 }
+*/
+a {
+  font-family: 'Love Ya Like A Sister', cursive;
+  text-decoration: none;
+  color: #5c5c8a;
+}
+
+a:active {
+  color: white;
+}
+
+.clear {
+  font-family: 'Love Ya Like A Sister', cursive;
+  color: #5c5c8a;
+  margin-right: 3vw;
+}
 
 p {
   font-size: 28px;
-  color: #29293d;
+  color: #1f1f2e;
+}
+
+#clear {
+  color: white;
+}
+
+.clear:hover, .clear:active {
+  cursor: pointer;
 }
 
 span {
@@ -131,7 +150,7 @@ ul li {
 
 ul li a {
   text-decoration: none;
-  color: #29293d;
+  color: #1f1f2e;
   font-weight: bold;
   display: inline-block;
   margin-left: -4vw;
@@ -144,7 +163,13 @@ ul li a {
   line-height: 0.5;
 }
 
-ul li a:active {
+.fa-del {
+  font-size: 2.1vw;
+  line-height: 0.5;
+  color: #5c5c8a;
+}
+
+ul li a:active, .fa-del:active {
   color: white;
 }
 
@@ -180,7 +205,7 @@ ol li {
 
 td {
   font-size: 2.5vw;
-  color: #29293d;
+  color: #1f1f2e;
 }
 
 .count {
