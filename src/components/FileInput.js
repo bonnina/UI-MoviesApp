@@ -6,10 +6,11 @@ import BACKEND_URL from './backendURL';
 export default class FileInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       problem: false
     }
   }
+  
     onDrop = (files) => {
       let file = files[0];
       
@@ -34,7 +35,7 @@ export default class FileInput extends React.Component {
        // this.props.getMovies();  - doesn't work
       }
     }
-
+  
   render() {
     const s = {
       width: '31vw', 

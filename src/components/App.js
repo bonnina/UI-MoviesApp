@@ -132,15 +132,13 @@ class SPA extends React.Component {
       console.log(response.statusText);
       this.setState({  
         loading: false,
-        movies: []
       });
-      
+      this.getMovies();
+      document.querySelector('#home').click();  // temporary
     })
     .catch(error => console.log(error.message));
-    this.getMovies();
-    document.querySelector('#home').click();  // temporary
    }
-
+  
      render() {
        return (
         <BrowserRouter>
@@ -151,7 +149,7 @@ class SPA extends React.Component {
             <Route exact path="/add" render={(props) => <Add {...props} details={this.state.details} getMovies={this.getMovies} actors={this.state.actors}/>} />
             <Route exact path="/search" render={(props) => <Search {...props} actors={this.state.actors} moviesArr={this.state.movies} showDetails={this.movieDetails}/>} />
             <Route exact path="/clear" render={(props) => <Clear {...props} clear={this.clearEverything} />} />
-            <Route exact path="/fileInput" render={(props) => <FileInput {...props} getMovies={this.getMovies} loading={this.state.loading}/>} />
+            <Route exact path="/fileInput" render={(props) => <FileInput {...props} getMovies={this.getMovies} />} />
             </div>
         </BrowserRouter>
       );
