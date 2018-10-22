@@ -53,7 +53,8 @@ export default class FileInput extends React.Component {
       borderColor: '#33334d',
       borderStyle: 'dashed',
       borderRadius: '5px',
-      marginLeft: '5vw'
+      marginTop: '1vw',
+      marginLeft: '2vw'
     };
     return (
       (this.state.loading) 

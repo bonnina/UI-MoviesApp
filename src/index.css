@@ -1,19 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister|Poiret+One');
 
-/*
-media (max-width: 400px) {
-  .child-box {
-    width: 90%;
-  }
-  .inp {
-    width: 90vw;
-  }
-  li, p {
-    font-size: 20px;
-  }
-}
-*/
-
 body  {
   background-color: #1f1f2e;
   font-family: 'Love Ya Like A Sister', cursive;
@@ -33,7 +19,7 @@ h2 {
 
 button {
   font-family: 'Poiret One', cursive;
-  font-size: 2.3vw;
+  font-size: 2vw;
   color: #29293d;
   background-color: #a3a3c2;
   font-weight: bold;
@@ -59,16 +45,12 @@ button:active {
   padding-top: 6vw !important;
   min-height: 20vw;
 }
-/*
-a {
-  text-decoration: none;
-  color: white;
-}
-*/
+
 a {
   font-family: 'Love Ya Like A Sister', cursive;
   text-decoration: none;
   color: #5c5c8a;
+  font-size: 2vw;
 }
 
 a:active {
@@ -79,11 +61,6 @@ a:active {
   font-family: 'Love Ya Like A Sister', cursive;
   color: #5c5c8a;
   margin-right: 3vw;
-}
-
-p {
-  font-size: 2.5vw;
-  color: #1f1f2e;
 }
 
 #clear, #problem {
@@ -114,21 +91,6 @@ span {
   min-height: 10vw;
 }
 
-#parent-box {
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 20vw;
-  padding-left: 1vw;
-}
-
-.child-box {
-  width: 43%;
-  margin: 0 1vw 0 1vw; 
-  padding: 2vw;
-  border-radius: 0.7vw;
-  background-color: #a3a3c2;
-}
-
 .clear-box {
  text-align: center;
 }
@@ -153,20 +115,24 @@ ul li a {
   color: #1f1f2e;
   font-weight: bold;
   display: inline-block;
-  margin-left: -4vw;
-  padding: 1.7vw 4vw 1.7vw 4vw;
-  font-size: 3.5vw;
+  margin-left: -2vw;
+  padding: 1.7vw 6vw 1.7vw 1vw;
+  font-size: 2em;
 }
 
 .fa {
-  font-size: 3vw;
+  font-size: 0.8em;
   line-height: 0.5;
 }
 
 .fa-del {
-  font-size: 2.1vw;
+  font-size: 1.2rem;
   line-height: 0.5;
   color: #5c5c8a;
+}
+
+.search {
+  font-size: 1.2rem;
 }
 
 ul li a:active, .fa-del:active {
@@ -203,7 +169,7 @@ ol li {
 }
 
 td {
-  font-size: 2.5vw;
+  font-size: 1.5em;
   color: #1f1f2e;
 }
 

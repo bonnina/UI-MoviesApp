@@ -1,7 +1,12 @@
 import React from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 import ErrorBoundary from './ErrorBoundary';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
+library.add( faTrashAlt, faSearch );
 
 class Search extends React.Component {
   constructor(props) {
@@ -35,19 +40,23 @@ class Search extends React.Component {
       let opts = this.props.moviesArr.map(el => {return {value: el.Id.toString(), label: el.Title};});
       let count1 = 1;
       let count2 = 1;
+      let styling = {fontFamily: 'Love Ya Like A Sister', marginTop: '1vw'};
 
       return (
       <div>
-      <ErrorBoundary>
         <div className="small-box">
-          <p> Search by movie title: </p>
-          <Select
-            name="byTitle"
-            isClearable
-            placeholder="start typing"
-            options={opts}
-            onChange={(e) => this.handleTitleSearch(e)}  
-          />
+          <Typography variant='h5' gutterBottom style={styling}>
+            Search by movie title
+          </Typography>
+          <ErrorBoundary>
+            <Select
+              name="byTitle"
+              isClearable
+              placeholder="start typing"
+              options={opts}
+              onChange={(e) => this.handleTitleSearch(e)}  
+            />
+          </ErrorBoundary>
           {!this.state.foundMovie.length 
           ? <p></p>
           : <div>
@@ -62,10 +71,10 @@ class Search extends React.Component {
                       {el.Title} 
                     </td> 
                     <td>        
-                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"><FontAwesomeIcon className="search" icon="search" /></Link></button>
                     </td>
                     <td>
-                      <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
+                      <button type="button" className="d" onClick={() => this.props.del(el)}><FontAwesomeIcon className="fa-del clear" icon="trash-alt" /></button>
                     </td>
                   </tr>)
               }
@@ -74,18 +83,20 @@ class Search extends React.Component {
           </div>
           }
         </div>
-      </ErrorBoundary>
       
-      <ErrorBoundary>
         <div className="small-box">
-          <p> Search by actor: </p>
-          <Select
-            name="byStar"
-            isClearable
-            placeholder="start typing"
-            options={options}
-            onChange={(opt) => this.handleActorSearch(opt)}  
-          />
+          <Typography variant='h5' gutterBottom style={styling}>
+            Search by actor
+          </Typography>
+          <ErrorBoundary>
+            <Select
+              name="byStar"
+              isClearable
+              placeholder="start typing"
+              options={options}
+              onChange={(opt) => this.handleActorSearch(opt)}  
+            />
+          </ErrorBoundary>
           {!this.state.filtered.length 
           ? <p></p> 
           : <div>
@@ -100,10 +111,10 @@ class Search extends React.Component {
                       {el.Title} 
                     </td> 
                     <td>        
-                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"> Details </Link></button>
+                      <button type="button" className="d" onClick={() => this.props.showDetails(el)}><Link to="/details"><FontAwesomeIcon className="search" icon="search" /></Link></button>
                     </td>
                     <td>
-                      <button type="button" className="d" onClick={() => this.props.del(el)}> Delete </button>
+                      <button type="button" className="d" onClick={() => this.props.del(el)}><FontAwesomeIcon className="fa-del clear" icon="trash-alt" /> </button>
                     </td>
                   </tr>)
               }
@@ -112,7 +123,6 @@ class Search extends React.Component {
           </div>
           }
         </div>
-      </ErrorBoundary>
       </div>
       );
     }

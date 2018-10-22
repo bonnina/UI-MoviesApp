@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-library.add( faTrashAlt, faInfoCircle );
+import { faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
+library.add( faTrashAlt, faSearch );
 
 class MovieList extends React.Component {
     render() {
@@ -33,7 +33,7 @@ class MovieList extends React.Component {
                       {el.Title} 
                     </td> 
                     <td>        
-                      <button type="button" id="menu" onClick={() => this.props.showDetails(el)}><Link to="/details"> details </Link></button>
+                      <button type="button" id="menu" onClick={() => this.props.showDetails(el)}><Link to="/details"> <FontAwesomeIcon className="search" icon="search" /> </Link></button>
                     </td>
                     <td>
                       <button type="button" className="d" onClick={() => this.props.del(el)}> <FontAwesomeIcon className="fa-del clear" icon="trash-alt" /> </button>

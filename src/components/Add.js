@@ -70,7 +70,7 @@ export default class Add extends React.Component {
         if (resp[0] === undefined) {
           createOrUpdate('POST');
         }
-        // if it does, update movie details
+        // if yes, update movie details
         else {
           console.log('will update');
           formData.id = resp[0].Id;
@@ -129,20 +129,21 @@ export default class Add extends React.Component {
     render() {
       let json = this.props.actors;
       let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
-      const styling = {
+      const boxStyling = {
         marginRight: '-1vw',
         padding: '2vw',
         borderRadius: '0.7vw',
         backgroundColor: '#a3a3c2',
         overflow: 'hidden'
       }
+      const buttonStyle = {fontFamily: 'Poiret One', color: 'white', fontWeight: 'bold'};
     
       return (
       <Grid container spacing={16} style={{padding: '2.2vw'}}>
-        <Grid item xs={12} sm={6} lg={6} style={styling}>
+        <Grid item xs={12} sm={6} lg={6} style={boxStyling}>
           <Typography variant='h5' gutterBottom style={{fontFamily: 'Love Ya Like A Sister'}}>
             Fill in this form
-          </Typography >
+          </Typography>
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
@@ -168,13 +169,13 @@ export default class Add extends React.Component {
               onChange={(opt, meta) => this.handleInputChange(opt, meta)} 
             />
           </div>
-          <button className="left"> Submit </button>
+          <button className="left"><Typography variant="h6" style={buttonStyle}> Submit </Typography></button>
         </form>
         </Grid> 
-        <Grid item xs={12} sm={6} lg={6} style={styling}> 
-          <Typography variant='h5' gutterBottom style={{fontFamily: 'Love Ya Like A Sister'}}>
+        <Grid item xs={12} sm={6} lg={6} style={boxStyling}> 
+          <Typography variant='h5' style={{fontFamily: 'Love Ya Like A Sister'}}>
             Or upload a file
-          </Typography >
+          </Typography>
           <FileInput />
         </Grid>
       </Grid>
