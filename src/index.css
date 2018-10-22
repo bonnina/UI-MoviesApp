@@ -82,7 +82,7 @@ a:active {
 }
 
 p {
-  font-size: 28px;
+  font-size: 2.5vw;
   color: #1f1f2e;
 }
 
@@ -180,8 +180,7 @@ ul li a:active, .fa-del:active {
   border: none;
   box-shadow: none;
   height: 35px;
-  width: 41vw;
-  padding-left: 0.3vw;
+  width: 99%;
 }
 
 input[type='file'] {

@@ -16,19 +16,7 @@ export default class DropzoneErrorBoundary extends React.Component {
       });
       console.log(info.componentStack);
     }
-    /*
-    handleFile = (file) => {
-        let fileReader;
-        const handleFileRead = (e) => {
-          const content = fileReader.result;
-          console.log(content);
-          // do something
-        };
-          fileReader = new FileReader();
-          fileReader.onloadend = handleFileRead;
-          fileReader.readAsText(file);
-      };
-      */
+    
       handleFile = (files) => {
       let file = files[0];
       
@@ -41,7 +29,7 @@ export default class DropzoneErrorBoundary extends React.Component {
           body: data
         })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then(() => window.location.reload())
         .catch(error => console.log(error.message));
       }
     }

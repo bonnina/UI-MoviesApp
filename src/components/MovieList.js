@@ -5,7 +5,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 library.add( faTrashAlt, faInfoCircle );
-// <div className="box"><p> Loading movies... </p></div> 
 
 class MovieList extends React.Component {
     render() {

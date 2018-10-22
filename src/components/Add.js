@@ -1,7 +1,8 @@
 import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import FileInput from './FileInput';
-import ErrorBoundary from './ErrorBoundary';
 import BACKEND_URL from './backendURL';
 
 export default class Add extends React.Component {
@@ -128,12 +129,20 @@ export default class Add extends React.Component {
     render() {
       let json = this.props.actors;
       let options = json.map(el => {return {value: el.Id.toString(), label: el.Name};});
+      const styling = {
+        marginRight: '-1vw',
+        padding: '2vw',
+        borderRadius: '0.7vw',
+        backgroundColor: '#a3a3c2',
+        overflow: 'hidden'
+      }
     
       return (
-      <div id="parent-box">
-        <div className="child-box">
-        <p> Fill in this form </p>
-        <ErrorBoundary>
+      <Grid container spacing={16} style={{padding: '2.2vw'}}>
+        <Grid item xs={12} sm={6} lg={6} style={styling}>
+          <Typography variant='h5' gutterBottom style={{fontFamily: 'Love Ya Like A Sister'}}>
+            Fill in this form
+          </Typography >
           <form onSubmit={(e) => this.addMovie(e)}>
           <div className="form-group">
             <label htmlFor="Title"> Title </label>
@@ -161,13 +170,14 @@ export default class Add extends React.Component {
           </div>
           <button className="left"> Submit </button>
         </form>
-        </ErrorBoundary>
-        </div>
-        
-        <div className="child-box">
-             <FileInput />
-        </div>
-      </div>
+        </Grid> 
+        <Grid item xs={12} sm={6} lg={6} style={styling}> 
+          <Typography variant='h5' gutterBottom style={{fontFamily: 'Love Ya Like A Sister'}}>
+            Or upload a file
+          </Typography >
+          <FileInput />
+        </Grid>
+      </Grid>
       );
     }
   }
